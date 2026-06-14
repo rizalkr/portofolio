@@ -6,14 +6,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const MOCK_PROJECTS = [
-  { slug: "heuristik", title: "Heuristik", description: "AI-driven threat detection pipeline." },
-  { slug: "data-lakehouse", title: "Data Lakehouse", description: "Petabyte-scale analytics engine." },
-  { slug: "stream-processing", title: "Stream Processing", description: "Real-time Kafka to Flink ETL." },
-  { slug: "auth-gateway", title: "Auth Gateway", description: "High-throughput API gateway." },
-  { slug: "ml-ops", title: "ML Ops Platform", description: "Model serving and monitoring." },
-  { slug: "vector-search", title: "Vector Search", description: "pgvector similarity search." },
-  { slug: "distributed-cache", title: "Distributed Cache", description: "Redis-based global caching layer." },
-  { slug: "k8s-operator", title: "K8s Operator", description: "Custom Kubernetes resource management." },
+  { slug: "kosera", title: "KOSERA: AI-Powered Property Search Engine", description: "Mesin pencari properti cerdas dengan Semantic Search." },
+  { slug: "titipyuk", title: "TitipYuk Semarang", description: "Platform penitipan barang dengan Chatbot AI & Email OTP." },
+  { slug: "krz-digishop", title: "KRZ DIGISHOP", description: "Landing page premium untuk layanan AI software & VPN." },
 ];
 
 export function ProjectStack() {

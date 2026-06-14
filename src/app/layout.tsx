@@ -13,9 +13,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio — Backend & Data Engineer",
+  title: "Rizal Kurnia — Backend & Data Engineer",
   description:
-    "Personal portfolio showcasing backend systems, data pipelines, and infrastructure projects.",
+    "Portfolio Rizal Kurnia — Backend & Data Engineer yang membangun sistem backend scalable, data pipeline, dan infrastruktur modern.",
 };
 
 export default function RootLayout({
@@ -30,7 +30,7 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-zinc-950">
+      <body className="min-h-full flex flex-col bg-background">
         {children}
         {modal}
       </body>

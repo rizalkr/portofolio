@@ -13,99 +13,51 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: "kosera",
-    title: "KOSERA",
-    summary: "Online learning platform ETL pipeline processing 2M+ daily events.",
+    title: "KOSERA: AI-Powered Property Search Engine",
+    summary: "Platform pencarian indekos yang mengimplementasikan AI untuk menerjemahkan kueri bahasa natural ke dalam kalkulasi vektor.",
     description:
-      "Designed and implemented the end-to-end ETL pipeline for an online learning platform, ingesting user activity events from Kafka, transforming them through Apache Spark jobs, and loading curated datasets into BigQuery for analytics. Built data quality checks, automated schema evolution handling, and real-time monitoring dashboards.",
-    tech: ["Apache Kafka", "Apache Spark", "BigQuery", "Airflow", "Python", "Docker"],
+      "Kosera adalah web platform berbasis Next.js untuk pencarian properti kos yang dilengkapi fitur Semantic Search bertenaga AI. Sistem memiliki arsitektur microservice: web app Next.js (Vercel) berkomunikasi dengan AI Service terpisah (FastAPI + Docker, dihosting di HuggingFace Spaces) yang mengonversi query teks menjadi 384-dimensional vector embeddings menggunakan Sentence Transformers. Pengguna dapat mencari kos menggunakan bahasa natural seperti 'kos murah dekat kampus dengan wifi', dan sistem akan menemukan hasil paling relevan secara semantik.",
+    tech: ["Next.js", "TypeScript", "PostgreSQL", "Drizzle ORM", "FastAPI", "Python", "Docker", "Sentence Transformers", "HuggingFace", "Cloudinary", "Vercel"],
     metrics: [
-      { label: "Events/day", value: "2.4M" },
-      { label: "Pipeline latency", value: "<5 min" },
-      { label: "Data quality", value: "99.7%" },
-    ],
-    role: "Data Engineer",
-    year: "2024",
-    status: "production",
-  },
-  {
-    slug: "dataforge",
-    title: "DataForge",
-    summary: "Real-time data processing engine with sub-second latency.",
-    description:
-      "Built a horizontally scalable stream processing engine using Apache Flink, handling CDC events from PostgreSQL and MySQL sources. Implemented exactly-once semantics, windowed aggregations, and late-event handling. The system powers real-time dashboards and alerting for operational metrics across 12 microservices.",
-    tech: ["Apache Flink", "PostgreSQL", "Redis", "Kubernetes", "Go", "gRPC"],
-    metrics: [
-      { label: "Throughput", value: "50K msg/s" },
-      { label: "P99 latency", value: "180ms" },
-      { label: "Uptime", value: "99.99%" },
-    ],
-    role: "Backend Engineer",
-    year: "2024",
-    status: "production",
-  },
-  {
-    slug: "api-gateway",
-    title: "APIGateway",
-    summary: "High-throughput API gateway handling 10K+ req/s.",
-    description:
-      "Architected a custom API gateway in Go to replace an aging NGINX-based setup. Features include JWT-based auth, rate limiting with sliding window counters in Redis, request/response transformation, circuit breaker patterns, and distributed tracing with OpenTelemetry. Reduced p99 latency by 40% compared to the previous solution.",
-    tech: ["Go", "Redis", "OpenTelemetry", "Docker", "Envoy", "Prometheus"],
-    metrics: [
-      { label: "Requests/s", value: "12K" },
-      { label: "P99 latency", value: "23ms" },
-      { label: "Error rate", value: "0.01%" },
-    ],
-    role: "Backend Engineer",
-    year: "2023",
-    status: "production",
-  },
-  {
-    slug: "logstream",
-    title: "LogStream",
-    summary: "Distributed log aggregation system for 50+ services.",
-    description:
-      "Designed a centralized logging infrastructure aggregating logs from 50+ containerized microservices. Built custom Fluentd plugins for parsing application-specific log formats, implemented log-based alerting with Elasticsearch queries, and created Grafana dashboards for real-time log analytics. Reduced mean-time-to-detection (MTTD) by 60%.",
-    tech: ["Elasticsearch", "Fluentd", "Grafana", "Kubernetes", "Python", "Terraform"],
-    metrics: [
-      { label: "Log volume", value: "2TB/day" },
-      { label: "Services", value: "54" },
-      { label: "MTTD reduction", value: "60%" },
-    ],
-    role: "Infrastructure Engineer",
-    year: "2023",
-    status: "production",
-  },
-  {
-    slug: "schemasync",
-    title: "SchemaSync",
-    summary: "Zero-downtime database migration orchestrator.",
-    description:
-      "Created a CLI tool and CI/CD integration for orchestrating zero-downtime database schema migrations across PostgreSQL clusters. Supports ghost table migrations, online DDL for large tables, automatic rollback on failure, and migration dependency resolution. Integrated with GitHub Actions for automated migration review workflows.",
-    tech: ["Python", "PostgreSQL", "GitHub Actions", "SQLAlchemy", "Click", "Docker"],
-    metrics: [
-      { label: "Migrations run", value: "1,200+" },
-      { label: "Rollback rate", value: "0.3%" },
-      { label: "Downtime", value: "0s" },
-    ],
-    role: "Backend Engineer",
-    year: "2023",
-    status: "archived",
-  },
-  {
-    slug: "pipeline-ops",
-    title: "PipelineOps",
-    summary: "ML pipeline monitoring and observability platform.",
-    description:
-      "Built an internal observability platform for monitoring ML training and inference pipelines. Features include pipeline DAG visualization, resource utilization tracking, model performance drift detection, and automated alerting. The platform provides a unified view across Kubeflow, Airflow, and custom pipeline runners.",
-    tech: ["Next.js", "FastAPI", "ClickHouse", "Kubernetes", "Python", "D3.js"],
-    metrics: [
-      { label: "Pipelines tracked", value: "340+" },
-      { label: "Alert accuracy", value: "94%" },
-      { label: "Eng adoption", value: "100%" },
+      { label: "Vector Dimension", value: "384" },
+      { label: "Languages", value: "50+" },
+      { label: "AI Model", value: "MiniLM-L12-v2" },
     ],
     role: "Full-stack Engineer",
     year: "2024",
     status: "in-progress",
+  },
+  {
+    slug: "titipyuk",
+    title: "TitipYuk Semarang",
+    summary: "Platform penitipan barang berbasis Next.js 14 dengan Chatbot AI streaming dan sistem Email OTP custom.",
+    description:
+      "TitipYuk adalah platform layanan penitipan barang yang dibangun end-to-end dengan Next.js 14 dan Supabase. Sistem memiliki alur autentikasi lengkap (Sign Up, Login, protected routes via middleware) dengan Email OTP custom yang diverifikasi menggunakan bcrypt dan dikirim via Mailry API. Fitur unggulan adalah Chatbot AI Lunos yang mendukung streaming token real-time, persistensi riwayat percakapan, dan konteks domain khusus TitipYuk.",
+    tech: ["Next.js 14", "TypeScript", "Tailwind CSS", "Supabase", "Supabase Auth", "shadcn/ui", "Lunos AI", "Mailry API", "Vercel"],
+    metrics: [
+      { label: "Auth System", value: "Email OTP + bcrypt" },
+      { label: "AI Chatbot", value: "Streaming + History" },
+      { label: "Chat Endpoints", value: "4 REST API" },
+    ],
+    role: "Full-stack Engineer",
+    year: "2025",
+    status: "in-progress",
+  },
+  {
+    slug: "krz-digishop",
+    title: "KRZ DIGISHOP",
+    summary: "Landing page premium untuk layanan AI software & VPN dengan desain dark futuristik berbasis Astro.js.",
+    description:
+      "KRZ DIGISHOP adalah landing page modern dan minimalis yang dibangun dengan Astro.js untuk menampilkan layanan digital premium (AI software & VPN). Menampilkan dark theme dengan aksen lime green, tipografi Space Grotesk, animasi CSS halus, dan product grid yang bisa difilter per kategori. Dioptimasi untuk performa tinggi dengan pendekatan zero-JS Astro.",
+    tech: ["Astro.js", "Scoped CSS", "Space Grotesk", "Inter", "Custom SVG Icons", "Google Fonts"],
+    metrics: [
+      { label: "Framework", value: "Astro.js" },
+      { label: "Sections", value: "6 (Hero, Features, Products, About, Testimonials, Footer)" },
+      { label: "JS Bundle", value: "Zero-JS Default" },
+    ],
+    role: "Frontend Engineer",
+    year: "2025",
+    status: "production",
   },
 ];
 
