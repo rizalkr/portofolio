@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# rizalkr/portofolio — Personal Portfolio
 
-## Getting Started
+Portfolio pribadi **Rizal Kurnia**, seorang Backend & Data Engineer. Dibangun dengan Next.js App Router, TypeScript, dan Tailwind CSS.
 
-First, run the development server:
+## ✨ Highlights
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Intercepting & Parallel Routes** — Klik project card membuka modal *tanpa* full page reload, namun URL tetap berubah (`/projects/[slug]`). Akses URL langsung tetap render halaman standalone.
+- **Dynamic Project Components** — Menambah proyek baru cukup dengan membuat file `src/components/projects/NamaProyek.tsx`. Tidak ada registry manual.
+- **Asymmetric Layout** — Grid 2 kolom asimetris (`1fr / 1.5fr`) dengan sticky identity panel di kiri.
+- **Midnight Slate + Electric Indigo** — Tema gelap dengan aksen Indigo-500.
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| UI Components | shadcn/ui (Dialog, Badge, Button, Carousel) |
+| Animation | Framer Motion |
+| Font | Inter (body), JetBrains Mono (code) |
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── @modal/              # Parallel route untuk modal overlay
+│   │   └── (.)projects/[slug]/page.tsx  # Intercepting route
+│   ├── projects/[slug]/     # Standalone project page
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── projects/            # Satu file per proyek (Kosera.tsx, Titipyuk.tsx, dll.)
+│   ├── ProjectStack.tsx     # Data & animasi project cards
+│   └── ui/                  # shadcn/ui components
+└── lib/
+    └── projects.ts          # Type & data proyek lengkap
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Install dependencies
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Run development server
+npm run dev
+```
 
-## Learn More
+Buka [http://localhost:3000](http://localhost:3000).
 
-To learn more about Next.js, take a look at the following resources:
+## ➕ Menambah Proyek Baru
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Tambah entry di `src/components/ProjectStack.tsx` (`MOCK_PROJECTS`):
+   ```ts
+   { slug: "nama-proyek", title: "Nama Proyek", description: "Deskripsi singkat." }
+   ```
+2. Buat file komponen baru `src/components/projects/NamaProyek.tsx`:
+   ```tsx
+   export const SLIDE_COUNT = 4;
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   export function NamaProyekSlides({ project, activeSlide }) {
+     return <div>...</div>;
+   }
+   ```
+3. Selesai — modal akan otomatis memuat komponen tersebut via dynamic import.
 
-## Deploy on Vercel
+## 📄 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
