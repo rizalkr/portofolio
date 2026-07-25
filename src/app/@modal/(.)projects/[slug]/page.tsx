@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { MOCK_PROJECTS } from "@/components/ProjectStack";
+import { MOCK_PROJECTS } from "@/lib/project-data";
 
 export default function InterceptedProjectModal({
   params,

@@ -4,30 +4,34 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import type { StackProject } from "@/lib/project-data";
 
-export const MOCK_PROJECTS = [
-  { slug: "kosera", title: "KOSERA: AI-Powered Property Search Engine", description: "Mesin pencari properti cerdas dengan Semantic Search." },
-  { slug: "titipyuk", title: "TitipYuk Semarang", description: "Platform penitipan barang dengan Chatbot AI & Email OTP." },
-  { slug: "krz-digishop", title: "KRZ DIGISHOP", description: "Landing page premium untuk layanan AI software & VPN." },
-];
+// Re-export for backward compatibility with the modal route
+export { MOCK_PROJECTS } from "@/lib/project-data";
+export type { StackProject } from "@/lib/project-data";
 
-export function ProjectStack() {
+interface ProjectStackProps {
+  projects: StackProject[];
+  stackId: string;
+}
+
+export function ProjectStack({ projects, stackId }: ProjectStackProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
 
   const CARDS_PER_PAGE = 6;
-  const totalPages = Math.ceil(MOCK_PROJECTS.length / CARDS_PER_PAGE);
+  const totalPages = Math.ceil(projects.length / CARDS_PER_PAGE);
 
   const currentProjects = isExpanded
-    ? MOCK_PROJECTS.slice(currentPage * CARDS_PER_PAGE, (currentPage + 1) * CARDS_PER_PAGE)
-    : MOCK_PROJECTS.slice(0, 4); // Show top 4 when collapsed
+    ? projects.slice(currentPage * CARDS_PER_PAGE, (currentPage + 1) * CARDS_PER_PAGE)
+    : projects.slice(0, 4); // Show top 4 when collapsed
 
   return (
     <div className="w-full relative min-h-[300px]">
       <AnimatePresence mode="wait">
         {!isExpanded ? (
           <motion.div
-            key="collapsed"
+            key={`${stackId}-collapsed`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -38,7 +42,7 @@ export function ProjectStack() {
               return (
                 <motion.div
                   key={project.slug}
-                  layoutId={`project-card-${project.slug}`}
+                  layoutId={`project-card-${stackId}-${project.slug}`}
                   className="absolute top-0 left-0 w-full h-full rounded-xl border border-border bg-card p-6 shadow-xl flex flex-col justify-between"
                   style={{
                     zIndex: currentProjects.length - index,
@@ -66,14 +70,14 @@ export function ProjectStack() {
           </motion.div>
         ) : (
           <motion.div
-            key="expanded"
+            key={`${stackId}-expanded`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="w-full"
           >
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Projects ({MOCK_PROJECTS.length})</h2>
+              <h2 className="text-2xl font-bold">Projects ({projects.length})</h2>
               <Button variant="outline" onClick={() => {
                 setIsExpanded(false);
                 setCurrentPage(0);
@@ -86,7 +90,7 @@ export function ProjectStack() {
               {currentProjects.map((project) => (
                 <motion.div
                   key={project.slug}
-                  layoutId={`project-card-${project.slug}`}
+                  layoutId={`project-card-${stackId}-${project.slug}`}
                   className="rounded-xl border border-border bg-card shadow-sm hover:border-primary transition-colors overflow-hidden"
                   transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 >

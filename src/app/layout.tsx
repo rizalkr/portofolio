@@ -13,9 +13,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rizal Kurnia — Backend & Data Engineer",
+  title: "Rizal Kurnia — Backend & Data Analyst",
   description:
-    "Portfolio Rizal Kurnia — Backend & Data Engineer yang membangun sistem backend scalable, data pipeline, dan infrastruktur modern.",
+    "Portfolio Rizal Kurnia — Backend & Data Analyst yang membangun sistem backend scalable, data pipeline, dan infrastruktur modern.",
 };
 
 export default function RootLayout({

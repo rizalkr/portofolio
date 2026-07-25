@@ -59,6 +59,54 @@ export const projects: Project[] = [
     year: "2025",
     status: "production",
   },
+  {
+    slug: "fraud-detection",
+    title: "Fraud Detection Decision Engine",
+    summary: "3-tier operational risk framework (Approve / Authentication / Manual Review) for e-commerce fraud detection powered by Random Forest.",
+    description:
+      "A fraud detection system that transforms the standard binary classification approach into a 3-tier operational risk management framework — Approve, Authentication, and Manual Review — for e-commerce transactions. The data pipeline employs selective imputation and datatype downcasting strategies, reducing dataset memory usage by 55% (from 2.06 GB to 922 MB). After evaluating multiple tree-based ensemble models, Random Forest was selected as the primary predictive model, outperforming the Logistic Regression baseline. The final model secures 65.4% of actual fraud cases while limiting intervention friction to only 3.06% of total transaction volume.",
+    tech: ["Python", "Pandas", "NumPy", "Scikit-learn", "Random Forest", "Logistic Regression", "Matplotlib", "Seaborn"],
+    metrics: [
+      { label: "Memory Reduction", value: "55%" },
+      { label: "Fraud Recall", value: "65.4%" },
+      { label: "Intervention Rate", value: "3.06%" },
+    ],
+    role: "Data Analyst",
+    year: "2025",
+    status: "archived",
+  },
+  {
+    slug: "telco-dashboard",
+    title: "Telco Portfolio Dashboard & Incident Detection",
+    summary: "NLP-driven operational dashboard that translates raw customer reviews into actionable business insights with statistical anomaly detection.",
+    description:
+      "An analytical system that translates raw customer review text into actionable business insights for monitoring app release stability and proactively detecting infrastructure anomalies. The pipeline implements multi-label NLP classification to extract and categorize complaints (Network, Price, App/System). A custom Telco Friction Index (TFI) with 7-day moving average and a 14-day rolling Z-Score statistical model enable dynamic incident detection when complaint volume breaches the threshold (> 2.0 standard deviations). All insights are visualized in an operational dashboard rendered with Matplotlib and Seaborn.",
+    tech: ["Python", "Pandas", "NLP", "Matplotlib", "Seaborn", "NumPy", "Statistical Modeling"],
+    metrics: [
+      { label: "TFI Window", value: "7-day MA" },
+      { label: "Z-Score Window", value: "14-day Rolling" },
+      { label: "Anomaly Threshold", value: "> 2.0 SD" },
+    ],
+    role: "Data Analyst",
+    year: "2025",
+    status: "archived",
+  },
+  {
+    slug: "telco-churn",
+    title: "Telco Customer Churn Prediction & Retention Strategy",
+    summary: "Logistic Regression churn predictor achieving 87% recall with a 3-tier risk routing algorithm and automated CSV export for operations teams.",
+    description:
+      "A churn prediction and retention strategy system analyzing 7,000+ telecom customer records to identify churn behavior, expose survivorship bias in historical retention indicators, and formulate financial retention architectures such as Ecosystem Lock-in. Data cleaning includes imputing empty financial records for new customers and preventing multicollinearity through One-Hot Encoding with drop_first=True to produce a 30-dimensional orthogonal feature matrix. The Logistic Regression model configured with balanced class weights, combined with decision boundary engineering through threshold adjustment to 0.4, achieves 87% churn detection recall. An intervention routing algorithm segments customers into 3 risk tiers (High, Medium, Low) and automatically exports results as CSV for operational teams.",
+    tech: ["Python", "Pandas", "Scikit-learn", "Logistic Regression", "NumPy", "Matplotlib", "Seaborn"],
+    metrics: [
+      { label: "Churn Recall", value: "87%" },
+      { label: "Threshold", value: "0.4" },
+      { label: "Feature Dimensions", value: "30" },
+    ],
+    role: "Data Analyst",
+    year: "2025",
+    status: "archived",
+  },
 ];
 
 export function getProjectBySlug(slug: string): Project | undefined {

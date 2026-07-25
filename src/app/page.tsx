@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ProjectStack } from "@/components/ProjectStack";
+import { MOCK_PROJECTS } from "@/lib/project-data";
 
 export default function HomePage() {
   const techStack = [
@@ -12,6 +13,9 @@ export default function HomePage() {
     "Docker",
     "FastAPI",
   ];
+
+  const webBackendProjects = MOCK_PROJECTS.filter((p) => p.category === "web-backend");
+  const dataAnalyticsProjects = MOCK_PROJECTS.filter((p) => p.category === "data-analytics");
 
   return (
     <div className="min-h-screen max-w-7xl mx-auto px-6 py-12 lg:py-24">
@@ -30,7 +34,8 @@ export default function HomePage() {
                 alt="Rizal Kurnia"
                 width={128}
                 height={128}
-                className="w-32 h-32 object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                className="w-32 h-32 object-cover transition-all duration-500"
+                priority
               />
             </div>
             <div className="flex flex-col gap-3 text-center sm:text-left lg:text-left">
@@ -38,7 +43,7 @@ export default function HomePage() {
                 Rizal Kurnia
               </h1>
               <p className="font-mono text-primary text-base font-medium">
-                &gt; Backend &amp; Data Engineer
+                &gt; Backend &amp; Data Analyst
               </p>
               <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
                 I design and implement highly scalable backend services, resilient data pipelines,
@@ -93,12 +98,20 @@ export default function HomePage() {
             ═══════════════════════════════════ */}
         <main className="flex flex-col gap-16">
 
-          {/* Projects */}
+          {/* Web & Backend Projects */}
           <section className="space-y-8">
             <h2 className="font-mono text-sm uppercase tracking-widest text-muted-foreground border-b border-border pb-2">
-              Selected Projects
+              Web &amp; Backend
             </h2>
-            <ProjectStack />
+            <ProjectStack projects={webBackendProjects} stackId="web-backend" />
+          </section>
+
+          {/* Data Analytics Projects */}
+          <section className="space-y-8">
+            <h2 className="font-mono text-sm uppercase tracking-widest text-muted-foreground border-b border-border pb-2">
+              Data Analytics
+            </h2>
+            <ProjectStack projects={dataAnalyticsProjects} stackId="data-analytics" />
           </section>
 
         </main>
