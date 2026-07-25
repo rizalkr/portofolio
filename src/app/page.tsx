@@ -73,6 +73,14 @@ export default function HomePage() {
               >
                 GitHub
               </a>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors underline underline-offset-4"
+              >
+                Resume
+              </a>
             </div>
           </section>
 
