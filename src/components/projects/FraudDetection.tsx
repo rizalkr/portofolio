@@ -126,7 +126,7 @@ export function FraudDetectionSlides({
               asChild
             >
               <a
-                href="https://github.com/rizalkr/fraud-detection"
+                href="https://github.com/rizalkr/fraud_detection"
                 target="_blank"
                 rel="noreferrer"
               >

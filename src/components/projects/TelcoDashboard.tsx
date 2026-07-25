@@ -110,7 +110,7 @@ export function TelcoDashboardSlides({
               asChild
             >
               <a
-                href="https://github.com/rizalkr/telco-dashboard"
+                href="https://github.com/rizalkr/provider_tfi"
                 target="_blank"
                 rel="noreferrer"
               >

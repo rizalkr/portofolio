@@ -133,7 +133,7 @@ export function TelcoChurnSlides({
               asChild
             >
               <a
-                href="https://github.com/rizalkr/telco-churn"
+                href="https://github.com/rizalkr/telco_churn"
                 target="_blank"
                 rel="noreferrer"
               >
