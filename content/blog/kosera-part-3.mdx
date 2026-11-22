@@ -1,0 +1,40 @@
+---
+title: "750 Leakage-Free Conversations and 10.95 Minutes of QLoRA Training"
+date: "2026-11-22"
+excerpt: "A dataset is not about size. It's about whether it leaks. This is how to build 750 clean SFT conversations, then train Qwen2.5-7B in 10.95 minutes."
+series: "Kosera SPK AI Service"
+part: 3
+slug: "kosera-part-3"
+---
+
+A dataset is not about size. It's about whether it leaks.
+
+Before training anything, I built an SFT dataset of 750 conversations from real and synthetic kos data. The training itself took only 10.95 minutes on an A100. The slow part wasn't training, it was making sure the dataset was clean.
+
+## A deterministic generator, not a pile of scraped text
+
+The dataset was built with a deterministic generator (`seed=42`) from 6,976 real Mamikos rows and 2,200 synthetic kos entries. The result: 750 conversations in 8 categories, 640 train (85.3%), 55 val (7.3%), 55 test (7.3%).
+
+Validation found 0 schema errors, 0 math errors, and 0 entity or prompt overlap across splits. Strictly disjoint splits matter: if the same entity appears in both train and test, the test score lies. The model looks smart when it is only remembering.
+
+Why synthetic data at all? Real data alone doesn't cover every conversation pattern that needs to be taught, for example empty-result queries, out-of-scope refusals, and prompt injection. Synthetic data fills those patterns without inventing kos facts, because all synthetic entries are marked and separated from the real data.
+
+## 10.95 minutes of training
+
+Base model: `unsloth/Qwen2.5-7B-Instruct-bnb-4bit`. GPU: NVIDIA A100-SXM4-80GB. Configuration: 2 epochs, 160 steps, `r=16`, `lora_alpha=32`, `lr=1e-4`, response-only loss masking (loss is computed on the response only, not on the prompt).
+
+Train loss dropped from 0.7335 (step 10) to 0.0089 (step 160). Eval loss dropped from 0.3059 (step 20) to 0.0108 (checkpoint-160). The resulting LoRA adapter is only 155 MB.
+
+![QLoRA training and validation loss curve](/blog/loss-curve.png)
+
+The full curve is in [loss_curve.png](https://github.com/rizalkr/kosera-ai-service/blob/main/outputs-phase-4/loss_curve.png).
+
+## LoRA as a pluggable adapter
+
+One thing I thought about from the start: LoRA is an adapter, not a new model. One base model can use different adapters per domain. A Kosera adapter for kos, another adapter later for a different domain, for example the portfolio site, on the same base model. Switch domains without retraining the base model.
+
+## Closing
+
+For you, what matters more in a fine-tuning dataset: size or clean splits?
+
+Continue to [Part 4: Loss Looked Beautiful, But the Model Said "putriri"](/blog/kosera-part-4).

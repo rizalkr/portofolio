@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ProjectStack } from "@/components/ProjectStack";
 import { MOCK_PROJECTS } from "@/lib/project-data";
 
@@ -81,6 +82,12 @@ export default function HomePage() {
               >
                 Resume
               </a>
+              <Link
+                href="/blog"
+                className="text-muted-foreground hover:text-primary transition-colors underline underline-offset-4"
+              >
+                Blog
+              </Link>
             </div>
           </section>
 

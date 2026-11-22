@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { type Project } from "@/lib/projects";
 import { motion } from "framer-motion";
@@ -81,6 +82,22 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           ))}
         </div>
       </div>
+
+      {/* Engineering Series */}
+      {project.blogLink && (
+        <div className="space-y-2 border-t border-zinc-800/80 pt-5">
+          <h3 className="text-xs font-mono uppercase tracking-widest text-zinc-500">
+            Engineering Series
+          </h3>
+          <Link
+            href={project.blogLink.href}
+            className="inline-flex items-center gap-2 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-4 py-2.5 font-mono text-xs text-indigo-300 transition-colors hover:border-indigo-400/60 hover:bg-indigo-500/15 hover:text-indigo-200"
+          >
+            <span>{project.blogLink.label}</span>
+            <span aria-hidden>→</span>
+          </Link>
+        </div>
+      )}
     </motion.div>
   );
 }

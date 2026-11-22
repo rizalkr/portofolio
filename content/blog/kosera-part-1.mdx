@@ -1,0 +1,54 @@
+---
+title: "Building an AI Kos Search Without a GPU: The Architecture Behind Kosera SPK"
+date: "2026-11-22"
+excerpt: "No GPU, just a Colab Pro subscription and 58 rows of kos data. This is the architecture that lets Kosera SPK answer boarding house questions in everyday language."
+series: "Kosera SPK AI Service"
+part: 1
+slug: "kosera-part-1"
+---
+
+I don't own a GPU. What I have: a Colab Pro subscription, 58 rows of kos data, and an idea for an AI assistant that can answer kos (boarding house) questions in everyday language.
+
+From those three things came Kosera SPK, a kos search engine combining semantic search with a Decision Support System (Profile Matching). This is the first of a 6-part series about building it, November 14-19, 2026. This time it's about architecture: how to separate the heavy parts from the light ones so everything runs without owning any hardware.
+
+## 58 rows of data is not enough
+
+Kosera's old database had only 58 kos entries from Google Maps and USM. For serious semantic search, that is not a dataset, that is a sample.
+
+I built a Mamikos scraper and collected up to 7,000 kos (6,976 valid rows priced at least Rp300 thousand per month), 6,896 sellers, and 79,828 local photos. The mix: mixed 2,893, female-only 2,775, male-only 1,332. Only at this point did the problem shift from "where is the data" to "how do we search it fast and correctly".
+
+## Why not one LLM for everything
+
+My first question: could a 7B LLM do semantic search too? In theory, yes. Architecturally, that is a bad decision. Ranking thousands of listings with an LLM on every query is slow and expensive.
+
+So I separated responsibilities. A multilingual embedding model of around 118M parameters runs on CPU and handles retrieval: turning a query into a 384-dimensional vector and matching it with pgvector. A 7B LLM runs on GPU and handles understanding Indonesian slang, calling tools in JSON format, and reasoning with SPK. Retrieval stays fast, control stays structured.
+
+## The pgvector trap: strict SQL filters return empty results
+
+This part almost went unnoticed. HNSW in pgvector stops too early when strict SQL filters are applied, for example city, gender, and maximum price at the same time. The result: the search comes back empty-handed even though the data is there.
+
+The fix is one line: `SET LOCAL hnsw.iterative_scan = relaxed_order` (pgvector 0.8 and above). A small detail that separates "broken search" from "working search".
+
+## Fine-tuning for behavior, not memorization
+
+This is the most important design rule in this project. Dynamic facts like kos names, monthly prices, and room availability change constantly. Training an LLM to memorize listings is the same as training it to hallucinate.
+
+So fine-tuning (SFT/QLoRA) only trains behavior: mapping casual slang to tool-call JSON (`semanticSearch`, `getHybridRecommendations`), explaining Profile Matching and Semantic scores, rejecting out-of-scope queries and prompt injection, and being honest when the database returns nothing. All facts still come from the database, not from the model's memory.
+
+## The architecture
+
+The flow looks like this: the user asks in everyday language, Next.js 15 as the web and gateway forwards the request to three services. PostgreSQL 16 + pgvector stores 7,000 kos and runs vector search (HNSW). A FastAPI embedding service on CPU turns the query into a 384-dimensional vector. A 7B LLM (Qwen2.5-7B-Instruct + QLoRA) runs on Colab GPU through FastAPI and Cloudflare Tunnel, and can later be swapped for vLLM or Ollama without rewriting Next.js.
+
+Three deployment modes were prepared from the start: offline (local Ollama GGUF Q4_K_M), hybrid (local app + Colab Pro GPU + tunnel), and online (cloud PostgreSQL + CPU embedding container + persistent vLLM). This separation is what made it possible to build the project without owning a GPU.
+
+Phase 1 baseline: 7,000 out of 7,000 embeddings indexed, 0 failures, 103 unit tests passing (5 files).
+
+![Kosera SPK architecture diagram: user to Next.js, then to PostgreSQL + pgvector, FastAPI embedding on CPU, and a 7B LLM on GPU](/blog/kosera-architecture-diagram.svg)
+
+## Closing
+
+If you were building AI without a GPU, which part would you separate first?
+
+The project repos are open: [kosera-ai-service](https://github.com/rizalkr/kosera-ai-service) (dataset, benchmark, training, inference server) and [kosera-spk](https://github.com/rizalkr/kosera-spk) (Next.js web app + SPK).
+
+Continue to [Part 2: Why Qwen2.5-7B Beat Sailor2-8B on Indonesian Kos Queries](/blog/kosera-part-2).

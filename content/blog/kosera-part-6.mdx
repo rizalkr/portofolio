@@ -1,0 +1,54 @@
+---
+title: "What Separates a Demo from Production: SPK Bugs, Auto Re-Indexing, and Safe Feedback Loops"
+date: "2026-11-22"
+excerpt: "What separates a demo from production is not the model. It's what happens after the user presses send: an SPK math bug, automatic re-indexing, and a safe feedback loop."
+series: "Kosera SPK AI Service"
+part: 6
+slug: "kosera-part-6"
+---
+
+What separates a demo from production is not the model. It's what happens after the user presses send.
+
+Phase 7 is production hardening: fixing bugs that survived every earlier phase, preparing a deployment that doesn't depend on Colab, and building a continuous improvement path that doesn't damage the model.
+
+## An SPK math bug caught late
+
+This bug hid for a long time. `hybrid.ts` mixed Profile Matching scores on a 1-5 scale with Semantic Search scores on a 0-100 scale. Two different scales added together as-is.
+
+The fix in `hybrid-scoring.ts`: Profile Matching scores are normalized to 0-100, and the LLM `<tool_response>` payload is converted to 0-1 to match the SFT v1 training data. Bugs like this don't show up in loss or benchmarks, because the model isn't wrong, the arithmetic around it is.
+
+## Replacing Colab with vLLM and Ollama
+
+To remove the dependency on Colab sessions, an `LLM_PROVIDER=openai-compatible` adapter was added for vLLM and Ollama, plus `phase7_export_model.ipynb` for exporting `merged_bf16` and GGUF `Q4_K_M`. The deployment recipes are in [deploy/README.md](https://github.com/rizalkr/kosera-ai-service/blob/main/deploy/README.md).
+
+## Automatic re-indexing without blocking
+
+Every time a kos is created, edited, or restored, its embedding has to be re-indexed. Done synchronously, it would slow down user requests. The solution: non-blocking automatic re-indexing through Next.js 15 `after()` in the POST, PUT, and restore routes.
+
+## User feedback, but no auto-training
+
+A question that came up: can the AI train itself automatically once users start using it? The answer is no. Unreviewed automatic training opens the door to data poisoning and hallucination feedback loops, where the model's mistakes become its next training data.
+
+Instead, a human-in-the-loop path was built: an anonymized `chat_feedback` table (`0010_add_chat_feedback.sql`), a rate-limited API (20 requests per minute), feedback buttons in the UI, and an `export_feedback_to_sft.py` script for the sft_v2 human review queue. User feedback is still collected, but it becomes training data only after passing human review.
+
+## A Vercel build catch
+
+Right before the Vercel + Neon DB deployment, Next.js route validation rejected exporting a test helper (`resetFeedbackRateLimiter`) from `src/app/api/chat/feedback/route.ts`. A small thing that would have failed the production build.
+
+## The final numbers
+
+10 files, 149 out of 149 unit tests passing. Typecheck and eslint, 0 errors.
+
+## Closing
+
+If it were you, when can user feedback go straight into training data, and when does it have to pass human review first?
+
+The project repos are open: [kosera-ai-service](https://github.com/rizalkr/kosera-ai-service) (dataset, benchmark, training, inference server) and [kosera-spk](https://github.com/rizalkr/kosera-spk) (Next.js web app + SPK).
+
+Full series:
+- [Part 1: Building an AI Kos Search Without a GPU](/blog/kosera-part-1)
+- [Part 2: Why Qwen2.5-7B Beat Sailor2-8B](/blog/kosera-part-2)
+- [Part 3: 750 Leakage-Free Conversations and 10.95 Minutes of QLoRA Training](/blog/kosera-part-3)
+- [Part 4: Loss Looked Beautiful, But the Model Said "putriri"](/blog/kosera-part-4)
+- [Part 5: Running on Colab Doesn't Mean the Product Works](/blog/kosera-part-5)
+- [Part 6: What Separates a Demo from Production](/blog/kosera-part-6)

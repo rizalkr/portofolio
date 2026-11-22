@@ -8,6 +8,10 @@ export interface Project {
   role: string;
   year: string;
   status: "production" | "archived" | "in-progress";
+  blogLink?: {
+    label: string;
+    href: string;
+  };
 }
 
 export const projects: Project[] = [
@@ -26,6 +30,10 @@ export const projects: Project[] = [
     role: "Full-stack Engineer",
     year: "2024",
     status: "in-progress",
+    blogLink: {
+      label: "Read the Series (6 Parts)",
+      href: "/blog/kosera-part-1",
+    },
   },
   {
     slug: "titipyuk",

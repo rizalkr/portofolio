@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560" role="img" aria-label="Kosera SPK architecture diagram">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a5b4fc"/>
+    </marker>
+  </defs>
+  <rect width="900" height="560" fill="#09090b"/>
+  <text x="450" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#71717a" letter-spacing="2">KOSERA SPK ARCHITECTURE</text>
+
+  <!-- User -->
+  <rect x="330" y="34" width="240" height="56" rx="10" fill="#18181b" stroke="#3f3f46"/>
+  <text x="450" y="58" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="#fafafa">User</text>
+  <text x="450" y="78" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#a1a1aa">"cheap boarding house near campus with wifi"</text>
+
+  <line x1="450" y1="90" x2="450" y2="118" stroke="#a5b4fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Next.js gateway -->
+  <rect x="270" y="118" width="360" height="64" rx="10" fill="#18181b" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="450" y="144" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="#fafafa">Next.js 15, Web &amp; Gateway</text>
+  <text x="450" y="166" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#a1a1aa">translates queries, renders results (Vercel)</text>
+
+  <line x1="350" y1="182" x2="150" y2="232" stroke="#a5b4fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="450" y1="182" x2="450" y2="232" stroke="#a5b4fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="550" y1="182" x2="750" y2="232" stroke="#a5b4fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- pgvector -->
+  <rect x="20" y="232" width="260" height="88" rx="10" fill="#18181b" stroke="#3f3f46"/>
+  <text x="150" y="258" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="#fafafa">PostgreSQL 16 + pgvector</text>
+  <text x="150" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#a1a1aa">7,000 boarding houses, HNSW + iterative_scan</text>
+  <text x="150" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#a1a1aa">vector search + SQL filters</text>
+
+  <!-- Embedding -->
+  <rect x="320" y="232" width="260" height="88" rx="10" fill="#18181b" stroke="#3f3f46"/>
+  <text x="450" y="258" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="#fafafa">FastAPI Embedding, CPU</text>
+  <text x="450" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#a1a1aa">MiniLM-L12-v2, 384-dim vectors</text>
+  <text x="450" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#a1a1aa">fast retrieval, ~118M parameters</text>
+
+  <!-- LLM -->
+  <rect x="620" y="232" width="260" height="88" rx="10" fill="#18181b" stroke="#3f3f46"/>
+  <text x="750" y="258" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="#fafafa">LLM 7B, GPU</text>
+  <text x="750" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#a1a1aa">Qwen2.5-7B-Instruct + QLoRA</text>
+  <text x="750" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#a1a1aa">Colab Pro + Tunnel / vLLM / Ollama</text>
+
+  <line x1="150" y1="320" x2="360" y2="372" stroke="#a5b4fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="450" y1="320" x2="450" y2="372" stroke="#a5b4fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="750" y1="320" x2="540" y2="372" stroke="#a5b4fc" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Result -->
+  <rect x="200" y="372" width="500" height="72" rx="10" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="450" y="400" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="#fafafa">Grounded answers from the database</text>
+  <text x="450" y="424" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#c7d2fe">hybrid score: 70% Profile Matching + 30% Semantic</text>
+
+  <text x="450" y="492" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#71717a">Three deployment modes: offline (Ollama GGUF Q4_K_M) · hybrid (Colab Pro + tunnel) · online (persistent vLLM)</text>
+  <text x="450" y="516" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#71717a">Fine-tuning teaches behavior (tool calling, SPK reasoning), not memorizing boarding house prices.</text>
+</svg>

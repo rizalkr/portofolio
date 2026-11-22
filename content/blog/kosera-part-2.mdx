@@ -1,0 +1,49 @@
+---
+title: "Why Qwen2.5-7B Beat Sailor2-8B on Indonesian Kos Queries"
+date: "2026-11-22"
+excerpt: "Sailor2 was built for Southeast Asia. For Indonesian kos queries, it should have won. The benchmark said otherwise."
+series: "Kosera SPK AI Service"
+part: 2
+slug: "kosera-part-2"
+---
+
+Sailor2 was built for Southeast Asia. For Indonesian kos queries, it should have won. The benchmark said otherwise.
+
+This is the story of two setbacks before a fair test, and why the model that "should" win doesn't automatically win.
+
+## A reasonable hypothesis
+
+`sail/Sailor2-8B-Chat` was trained with a focus on Southeast Asia, and Indonesian is one of its target languages. Its opponent, `Qwen/Qwen2.5-7B-Instruct`, is a general model not specialized for any region. On paper, Sailor2 should understand Indonesian kos listings better.
+
+But a hypothesis is not a result. So it was tested: 25 Indonesian prompts in 5 categories, `casual_slang`, `multi_constraint`, `spk_reasoning`, `empty_result`, and `out_of_scope`. The metrics measured: tool-call validity, filter extraction accuracy, hallucination-free score, and latency.
+
+## First setback: Colab disconnected mid-run
+
+The first Sailor2 evaluation run died because the browser was closed mid-run and the Colab session disconnected with it. The work already done was gone.
+
+The fix: JSONL checkpoints on Drive and a standalone Sailor2 notebook, so a run can resume without starting from scratch. A boring but important lesson: on Colab, a result not saved to Drive is a result that doesn't exist.
+
+## Second setback: Sailor2's template dropped the tool definitions
+
+This is the important one. A fairness audit found that Sailor2's chat template silently dropped the tool definitions, so its initial tool-calling score was 0%. Not because the model couldn't call tools, but because it was never told any tools existed.
+
+Instead of declaring Qwen the winner unfairly, the template was fixed so both models were tested apples-to-apples with an identical `# Tools` / `<tools>` / `<tool_call>` schema. If you want to compare two models, compare the models, not their templates.
+
+## The fair result
+
+| Metric | Qwen2.5-7B-Instruct | Sailor2-8B-Chat |
+| :--- | :--- | :--- |
+| Tool-call validity | 100% (12/12) | 100% JSON extraction |
+| Filter extraction accuracy | 100% | 84.44% |
+| Hallucination-free score | no fabrication | 53.85% |
+| Average latency | 21.78 seconds | 41.37 seconds |
+
+Even on a fair setup, Qwen won decisively. Sailor2 inverted `maxPrice` into `minPrice`, failed to stop after `<tool_call>`, and fabricated fake kos addresses and prices right below the JSON block. Three different failures: misunderstanding the filter, failing to control its output, and inventing facts.
+
+Qwen was selected as the base model for fine-tuning. The full benchmark report is in [phase2_sailor2_fair_report.json](https://github.com/rizalkr/kosera-ai-service/blob/main/outputs-phase-2/phase2_sailor2_fair_report.json).
+
+## Closing
+
+Have you ever seen the model that "should" win lose after a fair test?
+
+Continue to [Part 3: 750 Leakage-Free Conversations and 10.95 Minutes of QLoRA Training](/blog/kosera-part-3).

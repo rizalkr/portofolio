@@ -1,0 +1,38 @@
+---
+title: "Running on Colab Doesn't Mean the Product Works: SSE, Tunnels, and UI Polish"
+date: "2026-11-22"
+excerpt: "Running on Colab doesn't mean the product works. This is the story of bridging a Colab GPU to Next.js, plus three UI defects found only during live testing."
+series: "Kosera SPK AI Service"
+part: 5
+slug: "kosera-part-5"
+---
+
+Running on Colab doesn't mean the product works.
+
+Phase 6 is the integration phase: FastAPI SSE streaming on Colab, bridged to Next.js, and tested end-to-end with real data. This is where every friction that doesn't exist in a notebook shows up one by one.
+
+## Bridging Colab to Next.js
+
+The live setup: Colab NVIDIA L4 (`bfloat16`, merged LoRA) + Cloudflare Quick Tunnel + local Next.js and PostgreSQL. `GET /api/ai/health` online (7,000 out of 7,000 embeddings + LLM). Then 4 out of 4 live `/api/chat` E2E tests passed: slang search, SPK hybrid, honest empty result for a Menteng query at Rp200 thousand, and streaming SSE refusal.
+
+Unit tests in this phase: 9 files, 124 out of 124 passing.
+
+## Friction that doesn't exist in a notebook
+
+Two infrastructure problems appeared immediately. First, the newer `peft` clashed with Colab's preinstalled `torchao==0.10.0`, fixed with `pip uninstall -y torchao`. Second, a freshly created `*.trycloudflare.com` URL needs 5-15 seconds of DNS propagation, so the first connection needs a retry.
+
+Neither of these two problems could be predicted from the training notebook. Both only appear when the system actually runs as a service.
+
+## UI polish: three defects found only during live testing
+
+When the chat was tested live, three UI defects showed up. Streaming tokens felt choppy, fixed with `requestAnimationFrame` batching. Raw `**` markdown leaked into the UI, fixed with an XSS-safe `ChatMarkdown.tsx` renderer. Auto-scroll hijacked the user's scroll position, fixed with smart auto-scroll that doesn't take control away.
+
+One more: raw `<tool_call>` XML is hidden during streaming, so users only see the final answer, not the raw tool call.
+
+None of these are model problems. The model had been correct since Phase 5. What wasn't correct yet was the experience of using it, and that only shows up when you test it as a user.
+
+## Closing
+
+Which integration issue most often breaks an AI demo that already "works" in a notebook?
+
+Continue to [Part 6: What Separates a Demo from Production](/blog/kosera-part-6).

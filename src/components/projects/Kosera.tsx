@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -135,6 +136,15 @@ export function KoseraSlides({
               >
                 AI Service Repo
               </a>
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full font-mono font-bold tracking-wide border-border text-foreground hover:border-primary hover:text-primary transition-colors"
+              asChild
+            >
+              <Link href="/blog/kosera-part-1">
+                Read the Series
+              </Link>
             </Button>
           </div>
         </div>

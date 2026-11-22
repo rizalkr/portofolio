@@ -1,0 +1,50 @@
+---
+title: "Loss Looked Beautiful, But the Model Said 'putriri': The Unsloth Bug and the Phase 5 Evaluation"
+date: "2026-11-22"
+excerpt: "Training succeeded in 10.95 minutes. Then the Phase 5 evaluation found the model repeating tokens and digits strangely. Don't trust the loss curve alone."
+series: "Kosera SPK AI Service"
+part: 4
+slug: "kosera-part-4"
+---
+
+The loss looked beautiful. But the model said "putriri" and "1epratus".
+
+After QLoRA training succeeded on an A100 in 10.95 minutes, the first Phase 5 evaluation found something the loss curve never showed. This is why model outputs have to be inspected directly, not just their metrics.
+
+## A bug that hit both models at once
+
+The first evaluation used Unsloth's `FastLanguageModel.for_inference()`. The result: bizarre token and digit duplication, like `1epratus`, `1jop`, `putriri`, `225500`, and `limit: 55`.
+
+What made it interesting: the glitch appeared on the Base model AND the fine-tuned model. Since it hit both, the LoRA adapter was clearly not the problem, the inference path was. If only one model had been broken, I might have blamed training. Since both broke with the same pattern, the evaluation tool itself was broken.
+
+## The fix: switch to standard transformers
+
+Evaluation and serving were moved entirely to standard HuggingFace `transformers` + `peft.PeftModel` (`merge_and_unload()` in `bfloat16`). The result: 0 glitches across all 122 probes (97 held-out + 25 OOD).
+
+The lesson is simple: the training framework and the evaluation framework don't have to match. What matters is that the results are correct, not that the tools are uniform.
+
+## The results
+
+97 held-out probes, Base to QLoRA:
+
+| Metric | Base | QLoRA | Change |
+| :--- | :--- | :--- | :--- |
+| Overall pass | 72.16% | 91.75% | +19.59% |
+| Tool validity | 100% (42/42) | 100% (42/42) | unchanged |
+| Filter accuracy | 88.21% | 96.23% | +8.02% |
+| Grounded answer | 84.62% | 100% | +15.38% |
+| Empty-result honesty | 71.43% | 100% | +28.57% |
+| Refusal | 100% | 100% | unchanged |
+| Overall groundedness | 85.45% | 100% | +14.55% |
+
+The 96.23% filter accuracy is 100% on semantic filters, with 8 non-critical `limit` mismatches. And on 25 unseen OOD prompts: 100% tool validity (12/12), 100% hallucination-free (up from 92.31%), 95.56% filter accuracy (43/45).
+
+![Base vs QLoRA comparison chart on 97 held-out probes](/blog/phase5-metrics-chart.png)
+
+The full report is in [phase5_comparison_report.json](https://github.com/rizalkr/kosera-ai-service/blob/main/outputs-phase-5-hf/phase5_comparison_report.json).
+
+## Closing
+
+Have you ever had training metrics look great while the model's output was broken? What do you check first?
+
+Continue to [Part 5: Running on Colab Doesn't Mean the Product Works](/blog/kosera-part-5).
