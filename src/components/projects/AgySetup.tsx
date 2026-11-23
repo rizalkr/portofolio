@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { StackProject } from "@/lib/project-data";
 
 export const SLIDE_COUNT = 4;
 
@@ -9,7 +8,7 @@ export function AgySetupSlides({
   project,
   activeSlide,
 }: {
-  project: StackProject;
+  project: { title: string };
   activeSlide: number;
 }) {
   return (
@@ -21,24 +20,26 @@ export function AgySetupSlides({
               {project.title}
             </h2>
             <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="font-mono">Python 3</Badge>
-              <Badge variant="secondary" className="font-mono">Antigravity Hooks</Badge>
-              <Badge variant="secondary" className="font-mono">Argon &amp; Neon</Badge>
-              <Badge variant="secondary" className="font-mono">MCP Protocol</Badge>
+              <Badge variant="secondary" className="font-mono">Plan-Execute (6 Presets)</Badge>
+              <Badge variant="secondary" className="font-mono">Context Guardian FSM</Badge>
+              <Badge variant="secondary" className="font-mono">Lazy Skill Router (19)</Badge>
               <Badge variant="secondary" className="font-mono">Graphify AST</Badge>
-              <Badge variant="secondary" className="font-mono">Cross-Platform</Badge>
+              <Badge variant="secondary" className="font-mono">Project-Scoped MCP</Badge>
+              <Badge variant="secondary" className="font-mono">Python 3</Badge>
             </div>
           </div>
           <p className="text-muted-foreground leading-relaxed">
             Long agentic coding sessions stall when silent token leaks drain the
             context window. Built for Google Antigravity across Windows, macOS,
             and Linux,{" "}
-            <strong className="text-primary">agy-setup</strong> eliminates four
-            failure modes: pairing Argon/Neon planners with Hydrogen executors
-            across 6 presets, blocking mistimed compactions via{" "}
-            <code className="font-mono text-xs text-primary">context-guardian.py</code>,
-            isolating MCP schemas per project (0 global token tax), and loading 18
-            domain skills on demand.
+            <strong className="text-primary">agy-setup</strong> enforces token
+            discipline across three core pillars: splitting{" "}
+            <strong className="text-primary">Argon/Neon</strong> planners from{" "}
+            <strong className="text-primary">Hydrogen</strong> executors across
+            6 presets, blocking mistimed compactions via a stateful{" "}
+            <code className="font-mono text-xs text-primary">context-guardian.py</code>{" "}
+            PreInvocation FSM, and routing 5 core + 19 domain skills lazily
+            alongside Graphify AST subgraphs and project-scoped MCP (0 global tax).
           </p>
         </div>
       )}
@@ -57,7 +58,7 @@ export function AgySetupSlides({
                   PreInvocation Hook (context-guardian.py)
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  Parses transcript.jsonl, detects /compact drops, enforces Never Compact Mid-Task
+                  PreInvocation FSM parses transcript.jsonl, detects /compact drops &amp; enforces Never Compact Mid-Task
                 </span>
               </div>
               <div className="flex justify-center font-mono text-muted-foreground text-xs">
@@ -68,7 +69,7 @@ export function AgySetupSlides({
                   Plan-Execute Orchestrator (6 Presets)
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  Argon (1-3) / Neon (4-6) Planner + Hydrogen Executor
+                  Argon/Neon Planner + Hydrogen Executor split
                 </span>
               </div>
               <div className="flex justify-center font-mono text-muted-foreground text-xs">
@@ -76,10 +77,10 @@ export function AgySetupSlides({
               </div>
               <div className="p-4 border border-border bg-card rounded-lg text-center shadow-sm">
                 <span className="font-mono text-sm font-bold text-primary block mb-1">
-                  Skill Router (agy-index-skills) + Zero Global MCP
+                  Lazy Skill Router + Project-Scoped MCP
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  5 Core Skills + 18 Domain Skills + Project-Scoped MCP
+                  5 Core + 19 Domain Skills (7 Categories) · 0 Global MCP Overhead
                 </span>
               </div>
               <div className="flex justify-center font-mono text-muted-foreground text-xs">
@@ -105,10 +106,10 @@ export function AgySetupSlides({
           </h3>
           <div className="flex flex-col divide-y divide-border">
             {[
-              { label: "Orchestrator Presets", value: "6 (Argon 1-3 & Neon 4-6)" },
-              { label: "Compaction Telemetry", value: "Yellow & Red Zones + Cooldown FSM" },
+              { label: "Plan-Execute (6 Presets)", value: "Argon/Neon + Hydrogen" },
+              { label: "Context Guardian", value: "PreInvocation FSM (Yellow/Red)" },
               { label: "Implicit Compact Reset", value: ">= 25% drop from >= 40k peak" },
-              { label: "Skill Architecture", value: "5 Core + 18 Domain (7 Categories)" },
+              { label: "Lazy Skill Router", value: "5 Core + 19 Domain (7 Categories)" },
               { label: "Global MCP Overhead", value: "0 Tokens (Project-Scoped Only)" },
               { label: "Onboarding & Sync", value: "AGENT_SETUP.md + install.py" },
             ].map(({ label, value }) => (

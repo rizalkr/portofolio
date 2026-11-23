@@ -68,7 +68,7 @@ export default function InterceptedProjectModal({
 
   return (
     <Dialog defaultOpen onOpenChange={onOpenChange}>
-      <DialogContent className="w-[95vw] max-w-3xl bg-card border-border p-0 shadow-2xl flex flex-col max-h-[90vh]">
+      <DialogContent className="w-[95vw] max-w-3xl sm:max-w-3xl lg:max-w-4xl rounded-2xl border-[#DFD9CE] bg-[#FAF8F3] text-[#1C1A17] dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 p-0 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
         <DialogHeader className="sr-only">
           <DialogTitle>{project.title}</DialogTitle>
           <DialogDescription>{project.description}</DialogDescription>
@@ -88,7 +88,7 @@ export default function InterceptedProjectModal({
         </div>
 
         {/* Navigation bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-border shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-[#DFD9CE] bg-[#F4F1EA]/70 dark:border-zinc-800 dark:bg-zinc-950/40 shrink-0">
           <Button
             variant="ghost"
             size="icon"
@@ -101,19 +101,24 @@ export default function InterceptedProjectModal({
           </Button>
 
           {/* Dot indicators */}
-          <div className="flex gap-2">
-            {Array.from({ length: slideCount }).map((_, i) => (
-              <button
-                key={i}
-                aria-label={`Go to slide ${i + 1}`}
-                onClick={() => setActiveSlide(i)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === activeSlide
-                    ? "w-6 bg-primary"
-                    : "w-2 bg-muted-foreground/40 hover:bg-muted-foreground/60"
-                }`}
-              />
-            ))}
+          <div className="flex items-center gap-3">
+            <div className="flex gap-2">
+              {Array.from({ length: slideCount }).map((_, i) => (
+                <button
+                  key={i}
+                  aria-label={`Go to slide ${i + 1}`}
+                  onClick={() => setActiveSlide(i)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === activeSlide
+                      ? "w-6 bg-primary"
+                      : "w-2 bg-muted-foreground/40 hover:bg-muted-foreground/60"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="font-mono text-xs text-[#7A7468] dark:text-zinc-400 tabular-nums">
+              Slide {activeSlide + 1} of {slideCount}
+            </span>
           </div>
 
           <Button
