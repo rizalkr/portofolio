@@ -51,7 +51,7 @@ export default function InterceptedProjectModal({
         .catch(() => ({
           default: () => (
             <div className="p-12 text-center text-muted-foreground">
-              Komponen tidak ditemukan.
+              Architecture walkthrough unavailable. Refresh or open the standalone case study.
             </div>
           ),
         }))
@@ -79,7 +79,7 @@ export default function InterceptedProjectModal({
           <Suspense
             fallback={
               <div className="min-h-[400px] flex items-center justify-center text-muted-foreground">
-                Memuat proyek...
+                Loading architecture walkthrough...
               </div>
             }
           >
@@ -92,6 +92,7 @@ export default function InterceptedProjectModal({
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Previous slide"
             disabled={activeSlide === 0}
             onClick={() => setActiveSlide((s) => s - 1)}
             className="h-9 w-9 rounded-full"
@@ -104,6 +105,7 @@ export default function InterceptedProjectModal({
             {Array.from({ length: slideCount }).map((_, i) => (
               <button
                 key={i}
+                aria-label={`Go to slide ${i + 1}`}
                 onClick={() => setActiveSlide(i)}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   i === activeSlide
@@ -117,6 +119,7 @@ export default function InterceptedProjectModal({
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Next slide"
             disabled={activeSlide === slideCount - 1}
             onClick={() => setActiveSlide((s) => s + 1)}
             className="h-9 w-9 rounded-full"

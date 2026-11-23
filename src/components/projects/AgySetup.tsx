@@ -30,12 +30,15 @@ export function AgySetupSlides({
             </div>
           </div>
           <p className="text-muted-foreground leading-relaxed">
-            An open-source{" "}
-            <strong className="text-primary">Context Engineering &amp; DX</strong>{" "}
-            suite for Google Antigravity (CLI, App, and IDE) across Windows, macOS,
-            and Linux. Built to stop four silent token leaks in agentic coding:
-            model over-provisioning, global MCP schema bloat, destructive mid-bug
-            compactions, and redundant full-file read loops.
+            Long agentic coding sessions stall when silent token leaks drain the
+            context window. Built for Google Antigravity across Windows, macOS,
+            and Linux,{" "}
+            <strong className="text-primary">agy-setup</strong> eliminates four
+            failure modes: pairing Argon/Neon planners with Hydrogen executors
+            across 6 presets, blocking mistimed compactions via{" "}
+            <code className="font-mono text-xs text-primary">context-guardian.py</code>,
+            isolating MCP schemas per project (0 global token tax), and loading 18
+            domain skills on demand.
           </p>
         </div>
       )}
@@ -132,7 +135,7 @@ export function AgySetupSlides({
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub Repo
+                View Source on GitHub
               </a>
             </Button>
             <Button
@@ -141,7 +144,7 @@ export function AgySetupSlides({
               asChild
             >
               <Link href="/blog/agy-setup-context-engineering">
-                Read Engineering Article
+                Read Engineering Case Study
               </Link>
             </Button>
           </div>

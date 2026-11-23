@@ -7,7 +7,7 @@ export function TelcoChurnSlides({
   project,
   activeSlide,
 }: {
-  project: any;
+  project: { title: string };
   activeSlide: number;
 }) {
   return (
@@ -27,14 +27,15 @@ export function TelcoChurnSlides({
             </div>
           </div>
           <p className="text-muted-foreground leading-relaxed">
-            A churn prediction and retention strategy system analyzing{" "}
-            <strong className="text-primary">7,000+ telecom customer records</strong> to
-            identify churn behavior, expose{" "}
-            <strong className="text-primary">survivorship bias</strong> in historical
-            retention indicators, and formulate financial retention architectures
-            such as Ecosystem Lock-in. Decision boundary engineering through threshold
-            adjustment achieves 87% churn detection recall with a 3-tier risk routing
-            algorithm.
+            Models churn behavior across{" "}
+            <strong className="text-primary">7,000+ telecom accounts</strong>{" "}
+            while correcting for{" "}
+            <strong className="text-primary">survivorship bias</strong> in
+            historical tenure metrics. After imputing new-account financial
+            fields and building a 30-dimensional orthogonal feature matrix
+            (drop_first=True), a class-balanced Logistic Regression classifier
+            tuned to a 0.40 decision threshold captures 87% of churning accounts
+            and exports 3-tier risk CSVs for retention teams.
           </p>
         </div>
       )}
@@ -137,7 +138,7 @@ export function TelcoChurnSlides({
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub Repo
+                GitHub Repository
               </a>
             </Button>
           </div>

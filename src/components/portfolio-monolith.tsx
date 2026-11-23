@@ -238,7 +238,7 @@ export function PortfolioMonolith({
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                 </span>
-                <span>Available for Engineering Roles</span>
+                <span>Open to Backend, AI &amp; Data Roles</span>
               </div>
 
               {/* Concise Engineering Bio */}
@@ -248,9 +248,9 @@ export function PortfolioMonolith({
                   isDark ? "text-zinc-400" : "text-[#57534A]"
                 )}
               >
-                I architect production backend services, semantic AI search pipelines, and
-                context-engineered developer tooling. Focused on measurable system observability,
-                low-overhead orchestration, and analytical rigor.
+                Building backend services, semantic search pipelines, and statistical risk
+                engines in Python and TypeScript. I ship systems that cut token and memory
+                overhead while keeping latency and recall measurable.
               </p>
 
               {/* 3-Column Portfolio Telemetry Strip */}
@@ -277,7 +277,7 @@ export function PortfolioMonolith({
                       isDark ? "text-zinc-500" : "text-[#7A7468]"
                     )}
                   >
-                    Systems
+                    Case Studies
                   </p>
                 </div>
                 <div
@@ -327,7 +327,7 @@ export function PortfolioMonolith({
                       isDark ? "text-zinc-500" : "text-[#7A7468]"
                     )}
                   >
-                    Prod / OSS
+                    Open Source
                   </p>
                 </div>
               </div>
@@ -371,7 +371,7 @@ export function PortfolioMonolith({
                   )}
                 >
                   <Mail className="h-3.5 w-3.5" />
-                  <span>Email</span>
+                  <span>Email Me</span>
                 </a>
                 <a
                   href="/resume.pdf"
@@ -385,7 +385,7 @@ export function PortfolioMonolith({
                   )}
                 >
                   <FileText className="h-3.5 w-3.5" />
-                  <span>CV</span>
+                  <span>Resume</span>
                 </a>
                 <a
                   href="https://github.com/rizalkr"
@@ -472,7 +472,7 @@ export function PortfolioMonolith({
                       isDark ? "text-zinc-400" : "text-[#57534A]"
                     )}
                   >
-                    Click any system to launch its 4-slide architecture walkthrough.
+                    Select any project to inspect its 4-slide architecture, trade-offs, and production metrics.
                   </p>
                 </div>
 
@@ -733,7 +733,7 @@ export function PortfolioMonolith({
                       isDark ? "text-zinc-400" : "text-[#57534A]"
                     )}
                   >
-                    Deep dives on context engineering, semantic search, and production hardening.
+                    Architecture post-mortems, QLoRA benchmark failures, and token-budget engineering.
                   </p>
                 </div>
                 <Link
@@ -745,7 +745,7 @@ export function PortfolioMonolith({
                       : "text-[#4338CA] hover:text-indigo-600"
                   )}
                 >
-                  <span>View all {totalPosts} articles</span>
+                  <span>Browse all {totalPosts} articles</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
@@ -867,7 +867,7 @@ export function PortfolioMonolith({
               : "border-[#DFD9CE] text-[#7A7468]"
           )}
         >
-          <span>Rizal Kurnia · Built with Next.js, Tailwind CSS &amp; Framer Motion</span>
+          <span>Rizal Kurnia</span>
           <div className="flex items-center gap-4">
             <a
               href="mailto:rizalkurnia.me@gmail.com"

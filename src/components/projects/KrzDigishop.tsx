@@ -7,7 +7,7 @@ export function KrzDigishopSlides({
   project,
   activeSlide,
 }: {
-  project: any;
+  project: { title: string };
   activeSlide: number;
 }) {
   return (
@@ -26,13 +26,14 @@ export function KrzDigishopSlides({
             </div>
           </div>
           <p className="text-muted-foreground leading-relaxed">
-            Landing page modern dan minimalis untuk{" "}
-            <strong className="text-primary">KRZ DIGISHOP</strong>, platform layanan digital
-            premium (AI software & VPN). Dibangun dengan Astro.js untuk performa maksimal —
-            pendekatan <strong className="text-primary">Zero-JS by default</strong> menghasilkan
-            bundle minimal dengan loading yang sangat cepat. Menampilkan dark theme futuristik
-            dengan aksen lime green, tipografi Space Grotesk, animasi CSS bertahap, dan product
-            grid yang dapat difilter per kategori.
+            Static digital storefront for{" "}
+            <strong className="text-primary">KRZ DIGISHOP</strong> (AI software
+            and VPN subscriptions), built with Astro.js. Shipping{" "}
+            <strong className="text-primary">zero client-side JavaScript</strong>{" "}
+            by default keeps the bundle minimal and first paint immediate on
+            mobile connections. Combines a high-contrast dark purple and
+            lime-green palette, Space Grotesk display typography, staged CSS
+            animations, and category-filtered product cards.
           </p>
         </div>
       )}
@@ -116,7 +117,7 @@ export function KrzDigishopSlides({
           <div className="flex flex-col gap-3 max-w-xs mx-auto w-full pt-4">
             <Button variant="default" className="w-full font-mono font-bold tracking-wide" asChild>
               <a href="https://kzr-digishop.vercel.app/" target="_blank" rel="noreferrer">
-                Visit Live Web
+                Open Live Site
               </a>
             </Button>
             <Button
@@ -129,7 +130,7 @@ export function KrzDigishopSlides({
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub Repo
+                View Source on GitHub
               </a>
             </Button>
           </div>

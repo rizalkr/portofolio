@@ -7,7 +7,7 @@ export function FraudDetectionSlides({
   project,
   activeSlide,
 }: {
-  project: any;
+  project: { title: string };
   activeSlide: number;
 }) {
   return (
@@ -27,14 +27,14 @@ export function FraudDetectionSlides({
             </div>
           </div>
           <p className="text-muted-foreground leading-relaxed">
-            A fraud detection system that transforms the standard binary classification
-            approach into a{" "}
-            <strong className="text-primary">3-tier operational risk management framework</strong>{" "}
-            — Approve, Authentication, and Manual Review — for e-commerce transactions.
-            The data pipeline employs selective imputation and datatype downcasting,
-            while a <strong className="text-primary">Random Forest</strong> model
-            outperforms the Logistic Regression baseline to secure 65.4% of actual
-            fraud cases with only 3.06% intervention friction.
+            Binary fraud classifiers force a trade-off between blocking good
+            customers and missing fraud. This pipeline downcasts and imputes a{" "}
+            <strong className="text-primary">2.06 GB e-commerce dataset</strong>{" "}
+            down to 922 MB (55% memory reduction) and benchmarks a{" "}
+            <strong className="text-primary">Random Forest</strong> classifier
+            against a Logistic Regression baseline. Transactions route into
+            three operational tiers—Approve, Step-Up Auth, and Manual Review—catching
+            65.4% of fraud while holding customer friction to 3.06%.
           </p>
         </div>
       )}
@@ -130,7 +130,7 @@ export function FraudDetectionSlides({
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub Repo
+                GitHub Repository
               </a>
             </Button>
           </div>

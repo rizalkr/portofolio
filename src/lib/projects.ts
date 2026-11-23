@@ -24,9 +24,9 @@ export const projects: Project[] = [
     title: "AGY-SETUP: Context Engineering & Orchestrator Suite",
     category: "web-backend",
     summary:
-      "Cross-platform context engineering and model-orchestration toolkit for Google Antigravity featuring 6 Plan-Execute presets, a stateful PreInvocation compaction hook, zero global MCP bloat, and an 18-skill progressive disclosure router.",
+      "Cross-platform orchestration toolkit for Google Antigravity that decouples Planner/Executor models across 6 presets, blocks mid-task context compaction via a stateful Python hook, and eliminates global MCP token overhead.",
     description:
-      "An open-source AI Engineering and Developer Experience toolkit for Google Antigravity (CLI, App, and IDE) across Windows, macOS, and Linux. agy-setup eliminates silent token leaks by decoupling reasoning planners (Gemini 4 Argon and Neon) from fast executors (Gemini 4 Hydrogen) across 6 presets, enforcing a 'Never Compact Mid-Task' safety protocol via a stateful Python PreInvocation hook (context-guardian.py) that parses transcript.jsonl, isolating MCP servers per project, and indexing 18 specialized domain skills behind a progressive-disclosure router (agy-index-skills) paired with graphify AST queries.",
+      "Long agentic coding sessions fail when global MCP schemas, redundant full-file reads, and mistimed context compactions drain the token window. agy-setup fixes these four leaks across Windows, macOS, and Linux. It pairs reasoning planners (Gemini 4 Argon and Neon) with fast executors (Gemini 4 Hydrogen) across 6 presets, enforces a 'Never Compact Mid-Task' guard via a PreInvocation Python hook (context-guardian.py) that tracks transcript.jsonl growth, isolates MCP servers per workspace, and routes 18 domain skills on demand alongside Graphify AST queries.",
     tech: [
       "Python 3",
       "Google Antigravity",
@@ -47,7 +47,7 @@ export const projects: Project[] = [
     status: "production",
     repoUrl: "https://github.com/rizalkr/agy-setup",
     blogLink: {
-      label: "Read the Engineering Article",
+      label: "Read Engineering Case Study",
       href: "/blog/agy-setup-context-engineering",
     },
   },
@@ -56,9 +56,9 @@ export const projects: Project[] = [
     title: "KOSERA: AI-Powered Property Search Engine",
     category: "web-backend",
     summary:
-      "Platform pencarian indekos yang mengimplementasikan AI untuk menerjemahkan kueri bahasa natural ke dalam kalkulasi vektor.",
+      "Microservice boarding-house search engine that encodes natural-language queries into 384-dimensional vectors via FastAPI and Sentence Transformers instead of rigid SQL filters.",
     description:
-      "Kosera adalah web platform berbasis Next.js untuk pencarian properti kos yang dilengkapi fitur Semantic Search bertenaga AI. Sistem memiliki arsitektur microservice: web app Next.js (Vercel) berkomunikasi dengan AI Service terpisah (FastAPI + Docker, dihosting di HuggingFace Spaces) yang mengonversi query teks menjadi 384-dimensional vector embeddings menggunakan Sentence Transformers. Pengguna dapat mencari kos menggunakan bahasa natural seperti 'kos murah dekat kampus dengan wifi', dan sistem akan menemukan hasil paling relevan secara semantik.",
+      "Standard property portals force renters to guess exact filter combinations, missing relevant listings written in informal Indonesian. Kosera decouples a Next.js storefront on Vercel from a containerized FastAPI inference microservice on HuggingFace Spaces. The AI service encodes queries like 'quiet boarding house near campus with fast Wi-Fi' into 384-dimensional embeddings using paraphrase-multilingual-MiniLM-L12-v2 across 50+ languages, ranking PostgreSQL listings by cosine similarity and Profile Matching.",
     tech: [
       "Next.js",
       "TypeScript",
@@ -82,7 +82,7 @@ export const projects: Project[] = [
     status: "in-progress",
     repoUrl: "https://github.com/rizalkr/kosera-spk",
     blogLink: {
-      label: "Read the Series (6 Parts)",
+      label: "Read 6-Part Engineering Series",
       href: "/blog/kosera-part-1",
     },
   },
@@ -91,9 +91,9 @@ export const projects: Project[] = [
     title: "TitipYuk Semarang",
     category: "web-backend",
     summary:
-      "Platform penitipan barang berbasis Next.js 14 dengan Chatbot AI streaming dan sistem Email OTP custom.",
+      "Luggage storage booking platform built on Next.js 14 and Supabase featuring bcrypt-hashed Email OTP verification and a domain-scoped streaming AI assistant.",
     description:
-      "TitipYuk adalah platform layanan penitipan barang yang dibangun end-to-end dengan Next.js 14 dan Supabase. Sistem memiliki alur autentikasi lengkap (Sign Up, Login, protected routes via middleware) dengan Email OTP custom yang diverifikasi menggunakan bcrypt dan dikirim via Mailry API. Fitur unggulan adalah Chatbot AI Lunos yang mendukung streaming token real-time, persistensi riwayat percakapan, dan konteks domain khusus TitipYuk.",
+      "Built end-to-end with Next.js 14 App Router and Supabase for luggage storage operations in Semarang. Replaces default magic links with a custom 6-digit Email OTP flow delivered via Mailry API, hashed with bcrypt in PostgreSQL, and throttled to one request per 60 seconds with a 10-minute TTL. Includes a Lunos AI support assistant across 4 REST endpoints that streams token responses in real time and persists per-user conversation history under strict Row-Level Security (RLS).",
     tech: [
       "Next.js 14",
       "TypeScript",
@@ -120,9 +120,9 @@ export const projects: Project[] = [
     title: "KRZ DIGISHOP",
     category: "web-backend",
     summary:
-      "Landing page premium untuk layanan AI software & VPN dengan desain dark futuristik berbasis Astro.js.",
+      "Zero-JS Astro.js storefront for AI software and VPN subscriptions engineered with scoped CSS, category filtering, and instant static asset delivery.",
     description:
-      "KRZ DIGISHOP adalah landing page modern dan minimalis yang dibangun dengan Astro.js untuk menampilkan layanan digital premium (AI software & VPN). Menampilkan dark theme dengan aksen lime green, tipografi Space Grotesk, animasi CSS halus, dan product grid yang bisa difilter per kategori. Dioptimasi untuk performa tinggi dengan pendekatan zero-JS Astro.",
+      "Marketing storefronts for digital subscriptions often suffer from heavy client-side JavaScript bundles that delay initial paint on mobile networks. KRZ DIGISHOP uses Astro.js static generation with a zero-JS default baseline, scoped CSS custom properties, and custom SVG iconography across 6 conversion sections (Hero, Features, Filterable Product Grid, About, Testimonials, Footer). Delivers instant first-load rendering with a high-contrast dark purple and lime-green visual hierarchy.",
     tech: [
       "Astro.js",
       "Scoped CSS",
@@ -132,9 +132,9 @@ export const projects: Project[] = [
       "Google Fonts",
     ],
     metrics: [
-      { label: "Framework", value: "Astro.js" },
-      { label: "Sections", value: "6 (Hero, Features, Products, About, Testimonials, Footer)" },
-      { label: "JS Bundle", value: "Zero-JS Default" },
+      { label: "Architecture", value: "Astro Static" },
+      { label: "Page Sections", value: "6 Conversion Blocks" },
+      { label: "Client JS Baseline", value: "0 KB Default" },
     ],
     role: "Frontend Engineer",
     year: "2025",
@@ -146,9 +146,9 @@ export const projects: Project[] = [
     title: "Fraud Detection Decision Engine",
     category: "data-analytics",
     summary:
-      "3-tier operational risk framework (Approve / Authentication / Manual Review) for e-commerce fraud detection powered by Random Forest.",
+      "Random Forest risk engine that replaces binary fraud flags with a 3-tier routing pipeline (Approve / Auth / Manual Review), catching 65.4% of fraud at 3.06% customer friction.",
     description:
-      "A fraud detection system that transforms the standard binary classification approach into a 3-tier operational risk management framework — Approve, Authentication, and Manual Review — for e-commerce transactions. The data pipeline employs selective imputation and datatype downcasting strategies, reducing dataset memory usage by 55% (from 2.06 GB to 922 MB). After evaluating multiple tree-based ensemble models, Random Forest was selected as the primary predictive model, outperforming the Logistic Regression baseline. The final model secures 65.4% of actual fraud cases while limiting intervention friction to only 3.06% of total transaction volume.",
+      "Binary fraud classifiers either block legitimate buyers or overwhelm analysts with false positives. This pipeline ingests 2.06 GB of raw e-commerce transactions, cutting memory usage by 55% (down to 922 MB) through selective imputation and numeric downcasting. Benchmarked against a Logistic Regression baseline, the Random Forest classifier routes transactions into three operational tiers—Approve, Step-Up Authentication, and Manual Review—capturing 65.4% of actual fraud while restricting manual or step-up friction to 3.06% of total volume.",
     tech: [
       "Python",
       "Pandas",
@@ -174,9 +174,9 @@ export const projects: Project[] = [
     title: "Telco Portfolio Dashboard & Incident Detection",
     category: "data-analytics",
     summary:
-      "NLP-driven operational dashboard that translates raw customer reviews into actionable business insights with statistical anomaly detection.",
+      "NLP anomaly detection pipeline that classifies raw app reviews and flags infrastructure incidents using a 7-day Telco Friction Index and 14-day rolling Z-Score (> 2.0 SD).",
     description:
-      "An analytical system that translates raw customer review text into actionable business insights for monitoring app release stability and proactively detecting infrastructure anomalies. The pipeline implements multi-label NLP classification to extract and categorize complaints (Network, Price, App/System). A custom Telco Friction Index (TFI) with 7-day moving average and a 14-day rolling Z-Score statistical model enable dynamic incident detection when complaint volume breaches the threshold (> 2.0 standard deviations). All insights are visualized in an operational dashboard rendered with Matplotlib and Seaborn.",
+      "App store reviews spike during network outages and buggy releases, but manual triage is too slow for incident response. This Python pipeline runs multi-label NLP classification to sort raw customer reviews into Network, Pricing, and App/System defects. It aggregates daily complaint velocity into a 7-day Moving Average Telco Friction Index (TFI) paired with a 14-day rolling Z-Score model, triggering automated incident alerts whenever complaint volume breaches 2.0 standard deviations above baseline.",
     tech: [
       "Python",
       "Pandas",
@@ -201,9 +201,9 @@ export const projects: Project[] = [
     title: "Telco Customer Churn Prediction & Retention Strategy",
     category: "data-analytics",
     summary:
-      "Logistic Regression churn predictor achieving 87% recall with a 3-tier risk routing algorithm and automated CSV export for operations teams.",
+      "Threshold-tuned Logistic Regression pipeline across 7,000+ telecom accounts achieving 87% churn recall and automated 3-tier CSV routing for retention teams.",
     description:
-      "A churn prediction and retention strategy system analyzing 7,000+ telecom customer records to identify churn behavior, expose survivorship bias in historical retention indicators, and formulate financial retention architectures such as Ecosystem Lock-in. Data cleaning includes imputing empty financial records for new customers and preventing multicollinearity through One-Hot Encoding with drop_first=True to produce a 30-dimensional orthogonal feature matrix. The Logistic Regression model configured with balanced class weights, combined with decision boundary engineering through threshold adjustment to 0.4, achieves 87% churn detection recall. An intervention routing algorithm segments customers into 3 risk tiers (High, Medium, Low) and automatically exports results as CSV for operational teams.",
+      "Analyzes 7,000+ telecom customer records to correct survivorship bias in tenure metrics and isolate the contract and billing drivers behind early churn. After imputing missing new-account financials and encoding a 30-dimensional orthogonal feature matrix (drop_first=True to prevent multicollinearity), a class-balanced Logistic Regression model was tuned from the default 0.50 decision threshold to 0.40. The shift lifts churn recall to 87% and feeds a 3-tier risk router (High, Medium, Low) that exports action-ready CSVs for retention operations.",
     tech: [
       "Python",
       "Pandas",

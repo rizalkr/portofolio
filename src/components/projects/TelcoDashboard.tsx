@@ -51,13 +51,14 @@ export function TelcoDashboardSlides({
             </div>
           </div>
           <p className="text-muted-foreground leading-relaxed">
-            An analytical system that translates{" "}
-            <strong className="text-primary">raw customer review text</strong> into
-            actionable business insights for monitoring app release stability and
-            proactively detecting infrastructure anomalies. Implements a custom{" "}
-            <strong className="text-primary">Telco Friction Index (TFI)</strong> with
-            statistical anomaly detection to isolate mass infrastructure incidents
-            and price sentiment shifts in real-time.
+            Translates{" "}
+            <strong className="text-primary">raw app store reviews</strong> into
+            an automated incident detection monitor for telecom releases.
+            Multi-label NLP classifies complaints into Network, Price, and
+            App/System defects, feeding a 7-day moving average{" "}
+            <strong className="text-primary">Telco Friction Index (TFI)</strong>{" "}
+            and a 14-day rolling Z-Score model that flags volume spikes
+            exceeding 2.0 standard deviations.
           </p>
         </div>
       )}
@@ -117,7 +118,7 @@ export function TelcoDashboardSlides({
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub Repo
+                GitHub Repository
               </a>
             </Button>
           </div>

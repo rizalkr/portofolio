@@ -8,7 +8,7 @@ export function KoseraSlides({
   project,
   activeSlide,
 }: {
-  project: any;
+  project: { title: string };
   activeSlide: number;
 }) {
   return (
@@ -28,13 +28,13 @@ export function KoseraSlides({
             </div>
           </div>
           <p className="text-muted-foreground leading-relaxed">
-              Platform pencarian properti (kos) terintegrasi berbasis Next.js. Kosera
-              dirancang secara komprehensif menggunakan arsitektur microservices,
-              mengisolasi layanan utama dari AI Service khusus yang dibangun dengan
-              Python dan FastAPI. Pipeline sistem memanfaatkan model Sentence Transformers
-              untuk mengeksekusi <strong className="text-primary">Semantic Search</strong>,
-              memungkinkan mesin menerjemahkan konteks bahasa natural secara spasial,
-              alih-alih bergantung pada kueri filter relasional yang kaku.
+            Standard boarding-house portals rely on rigid relational filters
+            that fail on conversational Indonesian queries. Kosera separates its
+            Next.js web application from a dedicated Python + FastAPI inference
+            microservice. Queries are encoded into 384-dimensional vectors via
+            Sentence Transformers (MiniLM-L12-v2), enabling{" "}
+            <strong className="text-primary">Semantic Search</strong> and
+            Profile Matching across 50+ languages.
           </p>
         </div>
       )}
@@ -108,7 +108,7 @@ export function KoseraSlides({
           <div className="flex flex-col gap-3 max-w-xs mx-auto w-full pt-4">
             <Button variant="default" className="w-full font-mono font-bold tracking-wide" asChild>
               <a href="https://kosera-spk.vercel.app/" target="_blank" rel="noreferrer">
-                Visit Live Web
+                Open Live App
               </a>
             </Button>
             <Button
@@ -121,7 +121,7 @@ export function KoseraSlides({
                 target="_blank"
                 rel="noreferrer"
               >
-                Web Repo
+                View Web Source
               </a>
             </Button>
             <Button
@@ -134,7 +134,7 @@ export function KoseraSlides({
                 target="_blank"
                 rel="noreferrer"
               >
-                AI Service Repo
+                View AI Service Source
               </a>
             </Button>
             <Button
@@ -143,7 +143,7 @@ export function KoseraSlides({
               asChild
             >
               <Link href="/blog/kosera-part-1">
-                Read the Series
+                Read 6-Part Case Study
               </Link>
             </Button>
           </div>

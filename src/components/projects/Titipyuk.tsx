@@ -14,23 +14,23 @@ export function TitipyukSlides({
   const features = [
     {
       Icon: Lock,
-      title: "Auth System",
-      desc: "Sign Up, Login, protected routes via Next.js middleware dengan session cookies httpOnly.",
+      title: "Middleware Auth & RBAC",
+      desc: "Protected Next.js App Router routes backed by httpOnly session cookies and Supabase Auth.",
     },
     {
       Icon: Bot,
-      title: "Chatbot Lunos AI",
-      desc: "Streaming token real-time, riwayat percakapan tersimpan per user, konteks khusus domain TitipYuk.",
+      title: "Lunos AI Streaming Chat",
+      desc: "Real-time token streaming across 4 REST endpoints with per-user conversation persistence and domain context.",
     },
     {
       Icon: MailCheck,
-      title: "Email OTP Custom",
-      desc: "OTP 6 digit, disimpan hashed (bcrypt), masa berlaku 10 menit, rate limit 1 request/60 detik.",
+      title: "Custom Bcrypt Email OTP",
+      desc: "6-digit OTP via Mailry API, stored as a bcrypt hash with a 10-minute TTL and 60-second rate limiting.",
     },
     {
       Icon: ShieldCheck,
-      title: "Security First",
-      desc: "RLS policies aktif, service role key tidak di-expose ke client, generic error response.",
+      title: "Row-Level Security (RLS)",
+      desc: "Strict PostgreSQL RLS policies isolating user bookings and chat logs without exposing service-role keys.",
     },
   ];
 
@@ -51,13 +51,14 @@ export function TitipyukSlides({
             </div>
           </div>
           <p className="text-muted-foreground leading-relaxed">
-            Platform layanan penitipan barang yang dibangun secara{" "}
-            <strong className="text-primary">end-to-end</strong> dengan Next.js 14 dan
-            Supabase. Sistem memiliki alur autentikasi lengkap dengan{" "}
-            <strong className="text-primary">Email OTP custom</strong> yang diverifikasi
-            menggunakan bcrypt dan dikirim via Mailry API — menggantikan email konfirmasi
-            default Supabase. Fitur unggulan berupa Chatbot AI Lunos yang mendukung
-            streaming token real-time dengan persistensi riwayat percakapan per user.
+            End-to-end luggage storage platform built with Next.js 14 and
+            Supabase. Replaces default confirmation links with a custom{" "}
+            <strong className="text-primary">6-digit Email OTP</strong> hashed
+            via bcrypt and dispatched through Mailry API. Includes a
+            domain-tuned{" "}
+            <strong className="text-primary">Lunos AI assistant</strong> that
+            streams responses in real time and stores conversation threads per
+            authenticated user.
           </p>
         </div>
       )}
@@ -109,7 +110,7 @@ export function TitipyukSlides({
           <div className="flex flex-col gap-3 max-w-xs mx-auto w-full pt-4">
             <Button variant="default" className="w-full font-mono font-bold tracking-wide" asChild>
               <a href="https://titipyuk-delta.vercel.app/" target="_blank" rel="noreferrer">
-                Visit Live Web
+                Open Live App
               </a>
             </Button>
             <Button
@@ -122,7 +123,7 @@ export function TitipyukSlides({
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub Repo
+                View Source on GitHub
               </a>
             </Button>
           </div>

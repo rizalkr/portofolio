@@ -28,8 +28,8 @@ export default function BlogIndexPage() {
             Blog
           </h1>
           <p className="text-sm leading-relaxed text-[#57534A] dark:text-zinc-400">
-            Technical write-ups on backend architecture, AI search, evaluation
-            benchmarks, and production lessons.
+            Post-mortems and architecture notes on context engineering,
+            fine-tuning 7B models without local GPUs, and production hardening.
           </p>
         </header>
 

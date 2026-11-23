@@ -17,7 +17,7 @@ const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem("rk-theme-
 export const metadata: Metadata = {
   title: "Rizal Kurnia — Backend, AI Systems & Data Engineer",
   description:
-    "Portfolio of Rizal Kurnia — Backend, AI Systems & Data Engineer architecting production backend services, semantic AI search pipelines, and context-engineered developer tooling.",
+    "Rizal Kurnia builds backend services, semantic search pipelines, and statistical risk engines in Python and TypeScript—cutting token and memory overhead with measurable recall.",
 };
 
 export default function RootLayout({
