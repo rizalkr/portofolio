@@ -5,11 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, FileText, Mail } from "lucide-react";
-import { BrandLogo } from "@/components/brand-logo";
 import {
   PageAtmosphere,
   SiteFooter,
-  ThemeToggle,
+  SiteNavbar,
   usePortfolioTheme,
 } from "@/components/theme-toggle";
 import type { ProjectCategory } from "@/lib/projects";
@@ -99,82 +98,14 @@ export function PortfolioMonolith({
     >
       <PageAtmosphere isDark={isDark} />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6 pt-6 pb-24 sm:px-8 sm:pt-10">
+      <div className="relative z-10 mx-auto max-w-6xl px-6 pt-0 pb-24 sm:px-8">
         {/* Top Navigation Bar */}
-        <header
-          className={cn(
-            "mb-10 flex items-center justify-between gap-4 border-b pb-4 transition-colors duration-300",
-            isDark ? "border-zinc-800/80" : "border-[#DFD9CE]"
-          )}
-        >
-          <Link
-            href="/"
-            aria-label="Rizal Kurnia — Home"
-            className="inline-flex items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-          >
-            <BrandLogo size="sm" theme={theme} showText />
-          </Link>
-
-          <nav className="flex items-center gap-4 sm:gap-5">
-            <a
-              href="#projects"
-              className={cn(
-                "font-mono text-xs transition-colors",
-                isDark
-                  ? "text-zinc-400 hover:text-zinc-100"
-                  : "text-[#57534A] hover:text-[#1C1A17]"
-              )}
-            >
-              Projects
-            </a>
-            <a
-              href="#writing"
-              className={cn(
-                "font-mono text-xs transition-colors",
-                isDark
-                  ? "text-zinc-400 hover:text-zinc-100"
-                  : "text-[#57534A] hover:text-[#1C1A17]"
-              )}
-            >
-              Writing
-            </a>
-            <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "hidden sm:inline-flex items-center gap-1 font-mono text-xs transition-colors",
-                isDark
-                  ? "text-zinc-400 hover:text-zinc-100"
-                  : "text-[#57534A] hover:text-[#1C1A17]"
-              )}
-            >
-              <span>Resume</span>
-              <ArrowUpRight className="h-3 w-3 opacity-60" />
-            </a>
-            <a
-              href="https://github.com/rizalkr"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "hidden sm:inline-flex items-center gap-1 font-mono text-xs transition-colors",
-                isDark
-                  ? "text-zinc-400 hover:text-zinc-100"
-                  : "text-[#57534A] hover:text-[#1C1A17]"
-              )}
-            >
-              <span>GitHub</span>
-              <ArrowUpRight className="h-3 w-3 opacity-60" />
-            </a>
-
-            <ThemeToggle />
-          </nav>
-        </header>
+        <SiteNavbar isDark={isDark} />
 
         {/* 12-Column Desktop Split: Sticky Left Profile + Right Content Grid */}
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
           {/* Left Sticky Profile Rail */}
-          <aside className="lg:col-span-4 lg:sticky lg:top-8">
+          <aside className="lg:col-span-4 lg:sticky lg:top-20">
             <motion.section
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -456,7 +387,7 @@ export function PortfolioMonolith({
           {/* Right Scrollable Content Column */}
           <main className="lg:col-span-8 space-y-16">
             {/* Selected Projects Section */}
-            <section id="projects" className="space-y-6">
+            <section id="projects" className="scroll-mt-20 space-y-6">
               <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                 <div>
                   <h2
@@ -712,7 +643,7 @@ export function PortfolioMonolith({
             </section>
 
             {/* Engineering Writing Section */}
-            <section id="writing" className="space-y-6">
+            <section id="writing" className="scroll-mt-20 space-y-6">
               <div
                 className={cn(
                   "flex items-end justify-between gap-4 border-b pb-3",

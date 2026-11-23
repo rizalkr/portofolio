@@ -17,7 +17,7 @@ export default function BlogIndexPage() {
     <div className="relative min-h-screen overflow-x-clip bg-[#F4F1EA] text-[#1C1A17] transition-colors duration-300 selection:bg-indigo-600/15 selection:text-indigo-900 dark:bg-zinc-950 dark:text-zinc-100">
       <PageAtmosphere />
 
-      <div className="relative z-10 mx-auto max-w-3xl px-6 pt-8 pb-24 sm:px-8 sm:pt-10">
+      <div className="relative z-10 mx-auto max-w-3xl px-6 pt-0 pb-24 sm:px-8">
         <SubpageHeader backHref="/" backLabel="Back to home" />
 
         <header className="mb-10 space-y-3 border-b border-[#DFD9CE] pb-8 dark:border-zinc-800/80">

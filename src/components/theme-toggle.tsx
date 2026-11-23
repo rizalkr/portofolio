@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowUp, ArrowUpRight, Moon, Sun } from "lucide-react";
+import { ArrowLeft, ArrowUp, ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
 import { BrandLogo } from "@/components/brand-logo";
 import { cn } from "@/lib/utils";
 
@@ -133,39 +133,6 @@ export function PageAtmosphere({ isDark }: { isDark?: boolean }) {
   );
 }
 
-export function SubpageHeader({
-  backHref,
-  backLabel,
-}: {
-  backHref: string;
-  backLabel: string;
-}) {
-  const theme = usePortfolioTheme();
-
-  return (
-    <div className="mb-8 flex items-center justify-between gap-4 border-b border-[#DFD9CE] pb-4 dark:border-zinc-800/80">
-      <Link
-        href={backHref}
-        className="inline-flex items-center gap-1.5 font-mono text-xs text-[#57534A] transition-colors hover:text-[#1C1A17] dark:text-zinc-500 dark:hover:text-zinc-200"
-      >
-        <ArrowLeft className="h-3.5 w-3.5" />
-        <span>{backLabel}</span>
-      </Link>
-
-      <div className="flex items-center gap-3">
-        <Link
-          href="/"
-          aria-label="Rizal Kurnia — Home"
-          className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-        >
-          <BrandLogo size="sm" theme={theme} showText />
-        </Link>
-        <ThemeToggle />
-      </div>
-    </div>
-  );
-}
-
 function toneClass(
   isDark: boolean | undefined,
   light: string,
@@ -174,6 +141,378 @@ function toneClass(
 ) {
   if (isDark === undefined) return auto;
   return isDark ? dark : light;
+}
+
+function MobileMenuButton({
+  open,
+  onToggle,
+  isDark,
+}: {
+  open: boolean;
+  onToggle: () => void;
+  isDark?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-expanded={open}
+      aria-label="Toggle navigation menu"
+      className={cn(
+        "relative inline-flex h-8 w-8 items-center justify-center rounded-lg border transition-all duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 sm:hidden",
+        toneClass(
+          isDark,
+          "border-[#DAD3C6] bg-[#FAF8F3] text-[#3F3B34] hover:border-[#C8C0B0] hover:bg-[#FDFCF9] hover:text-[#1C1A17] shadow-[0_1px_2px_rgba(28,25,23,0.05),0_1px_0_rgba(255,255,255,0.8)_inset]",
+          "border-zinc-800 bg-zinc-900/70 text-zinc-300 shadow-none hover:border-zinc-700 hover:bg-zinc-900 hover:text-zinc-100",
+          "border-[#DAD3C6] bg-[#FAF8F3] text-[#3F3B34] hover:border-[#C8C0B0] hover:bg-[#FDFCF9] hover:text-[#1C1A17] shadow-[0_1px_2px_rgba(28,25,23,0.05),0_1px_0_rgba(255,255,255,0.8)_inset] dark:border-zinc-800 dark:bg-zinc-900/70 dark:text-zinc-300 dark:shadow-none dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+        )
+      )}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={open ? "close" : "menu"}
+          initial={{ opacity: 0, rotate: -35, scale: 0.7 }}
+          animate={{ opacity: 1, rotate: 0, scale: 1 }}
+          exit={{ opacity: 0, rotate: 35, scale: 0.7 }}
+          transition={{ duration: 0.14, ease: [0.22, 1, 0.36, 1] }}
+          className="inline-flex items-center justify-center"
+        >
+          {open ? <X className="h-3.5 w-3.5" /> : <Menu className="h-3.5 w-3.5" />}
+        </motion.span>
+      </AnimatePresence>
+    </button>
+  );
+}
+
+function MobileMenuDrawer({
+  open,
+  onClose,
+  projectsHref,
+  writingHref,
+  isDark,
+}: {
+  open: boolean;
+  onClose: () => void;
+  projectsHref: string;
+  writingHref: string;
+  isDark?: boolean;
+}) {
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, onClose]);
+
+  const panelClass = toneClass(
+    isDark,
+    "border-[#DFD9CE] bg-[#FAF8F3] text-[#1C1A17] shadow-sm",
+    "border-zinc-800 bg-zinc-900/95 text-zinc-100 shadow-lg",
+    "border-[#DFD9CE] bg-[#FAF8F3] text-[#1C1A17] shadow-sm dark:border-zinc-800 dark:bg-zinc-900/95 dark:text-zinc-100 dark:shadow-lg"
+  );
+  const itemClass = toneClass(
+    isDark,
+    "text-[#3F3B34] hover:bg-[#EFECE4] hover:text-[#1C1A17]",
+    "text-zinc-300 hover:bg-zinc-800/70 hover:text-zinc-100",
+    "text-[#3F3B34] hover:bg-[#EFECE4] hover:text-[#1C1A17] dark:text-zinc-300 dark:hover:bg-zinc-800/70 dark:hover:text-zinc-100"
+  );
+  const dividerClass = toneClass(
+    isDark,
+    "border-[#DFD9CE]",
+    "border-zinc-800/80",
+    "border-[#DFD9CE] dark:border-zinc-800/80"
+  );
+  const mutedClass = toneClass(
+    isDark,
+    "text-[#7A7468]",
+    "text-zinc-400",
+    "text-[#7A7468] dark:text-zinc-400"
+  );
+
+  const navItems: {
+    label: string;
+    href: string;
+    external?: boolean;
+    hint?: string;
+  }[] = [
+    { label: "Projects", href: projectsHref, hint: "01" },
+    { label: "Writing", href: writingHref, hint: "02" },
+    { label: "Resume", href: "/resume.pdf", external: true },
+    { label: "GitHub", href: "https://github.com/rizalkr", external: true },
+  ];
+
+  return (
+    <AnimatePresence initial={false}>
+      {open && (
+        <>
+          <div
+            aria-hidden="true"
+            onClick={onClose}
+            className="fixed inset-0 top-[57px] z-30 sm:hidden"
+          />
+          <motion.div
+            initial={{ opacity: 0, y: -6, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={{ opacity: 0, y: -6, height: 0 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-40 overflow-hidden sm:hidden"
+          >
+            <nav
+              aria-label="Mobile navigation"
+              className={cn("mt-3 rounded-xl border p-2", panelClass)}
+            >
+            <div className="flex flex-col gap-0.5">
+              {navItems.map((item) => {
+                const classes = cn(
+                  "flex items-center justify-between rounded-lg px-3 py-2.5 font-mono text-xs transition-colors",
+                  itemClass
+                );
+
+                if (item.external) {
+                  return (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={onClose}
+                      className={classes}
+                    >
+                      <span>{item.label}</span>
+                      <ArrowUpRight className="h-3.5 w-3.5 opacity-60" />
+                    </a>
+                  );
+                }
+
+                if (item.href.startsWith("#")) {
+                  return (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      onClick={onClose}
+                      className={classes}
+                    >
+                      <span>{item.label}</span>
+                      <span className={cn("text-[10px] tabular-nums", mutedClass)}>
+                        {item.hint}
+                      </span>
+                    </a>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={onClose}
+                    className={classes}
+                  >
+                    <span>{item.label}</span>
+                    <span className={cn("text-[10px] tabular-nums", mutedClass)}>
+                      {item.hint}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div
+              className={cn(
+                "mt-2 flex flex-wrap items-center justify-between gap-2 border-t px-3 pt-2.5 pb-1 font-mono text-[11px]",
+                dividerClass,
+                mutedClass
+              )}
+            >
+              <a
+                href="mailto:rizalkurnia.me@gmail.com"
+                onClick={onClose}
+                className="truncate transition-colors hover:text-[#4338CA] dark:hover:text-indigo-400"
+              >
+                rizalkurnia.me@gmail.com
+              </a>
+              <span className="inline-flex items-center gap-1.5 shrink-0">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                </span>
+                <span>Open to roles</span>
+              </span>
+            </div>
+          </nav>
+        </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+export function SiteNavbar({ isDark }: { isDark?: boolean }) {
+  const subscribedTheme = usePortfolioTheme();
+  const theme: PortfolioTheme =
+    isDark === undefined ? subscribedTheme : isDark ? "dark" : "light";
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const linkClass = toneClass(
+    isDark,
+    "text-[#57534A] hover:text-[#1C1A17]",
+    "text-zinc-400 hover:text-zinc-100",
+    "text-[#57534A] hover:text-[#1C1A17] dark:text-zinc-400 dark:hover:text-zinc-100"
+  );
+  const headerSurfaceClass = toneClass(
+    isDark,
+    "border-[#DFD9CE]/90 bg-[#F4F1EA]/88",
+    "border-zinc-800/80 bg-zinc-950/85",
+    "border-[#DFD9CE]/90 bg-[#F4F1EA]/88 dark:border-zinc-800/80 dark:bg-zinc-950/85"
+  );
+
+  return (
+    <header
+      className={cn(
+        "sticky top-0 z-40 -mx-6 mb-8 border-b px-6 py-3.5 backdrop-blur-md transition-colors duration-300 sm:-mx-8 sm:mb-10 sm:px-8 sm:py-4",
+        headerSurfaceClass
+      )}
+    >
+      <div className="relative z-40 flex items-center justify-between gap-4">
+        <Link
+          href="/"
+          aria-label="Rizal Kurnia — Home"
+          className="inline-flex items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+        >
+          <BrandLogo size="sm" theme={theme} showText />
+        </Link>
+
+        <div className="flex items-center gap-2 sm:gap-5">
+          <nav className="hidden sm:flex items-center gap-5">
+            <a
+              href="#projects"
+              className={cn("font-mono text-xs transition-colors", linkClass)}
+            >
+              Projects
+            </a>
+            <a
+              href="#writing"
+              className={cn("font-mono text-xs transition-colors", linkClass)}
+            >
+              Writing
+            </a>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "inline-flex items-center gap-1 font-mono text-xs transition-colors",
+                linkClass
+              )}
+            >
+              <span>Resume</span>
+              <ArrowUpRight className="h-3 w-3 opacity-60" />
+            </a>
+            <a
+              href="https://github.com/rizalkr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "inline-flex items-center gap-1 font-mono text-xs transition-colors",
+                linkClass
+              )}
+            >
+              <span>GitHub</span>
+              <ArrowUpRight className="h-3 w-3 opacity-60" />
+            </a>
+          </nav>
+
+          <ThemeToggle />
+          <MobileMenuButton
+            open={menuOpen}
+            onToggle={() => setMenuOpen((prev) => !prev)}
+            isDark={isDark}
+          />
+        </div>
+      </div>
+
+      <MobileMenuDrawer
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        projectsHref="#projects"
+        writingHref="#writing"
+        isDark={isDark}
+      />
+    </header>
+  );
+}
+
+export function SubpageHeader({
+  backHref,
+  backLabel,
+}: {
+  backHref: string;
+  backLabel: string;
+}) {
+  const theme = usePortfolioTheme();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-40 -mx-6 mb-8 border-b border-[#DFD9CE]/90 bg-[#F4F1EA]/88 px-6 py-3.5 backdrop-blur-md transition-colors duration-300 sm:-mx-8 sm:px-8 sm:py-4 dark:border-zinc-800/80 dark:bg-zinc-950/85">
+      <div className="relative z-40 flex items-center justify-between gap-4">
+        <Link
+          href={backHref}
+          className="inline-flex min-w-0 items-center gap-1.5 font-mono text-xs text-[#57534A] transition-colors hover:text-[#1C1A17] dark:text-zinc-500 dark:hover:text-zinc-200"
+        >
+          <ArrowLeft className="h-3.5 w-3.5 shrink-0" />
+          <span className="truncate">{backLabel}</span>
+        </Link>
+
+        <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+          <nav className="hidden md:flex items-center gap-5 font-mono text-xs text-[#57534A] dark:text-zinc-400">
+            <Link
+              href="/#projects"
+              className="transition-colors hover:text-[#1C1A17] dark:hover:text-zinc-100"
+            >
+              Projects
+            </Link>
+            <Link
+              href="/blog"
+              className="transition-colors hover:text-[#1C1A17] dark:hover:text-zinc-100"
+            >
+              Writing
+            </Link>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 transition-colors hover:text-[#1C1A17] dark:hover:text-zinc-100"
+            >
+              <span>Resume</span>
+              <ArrowUpRight className="h-3 w-3 opacity-60" />
+            </a>
+          </nav>
+
+          <Link
+            href="/"
+            aria-label="Rizal Kurnia — Home"
+            className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+          >
+            <BrandLogo size="sm" theme={theme} className="sm:hidden" />
+            <BrandLogo size="sm" theme={theme} showText className="hidden sm:inline-flex" />
+          </Link>
+          <ThemeToggle />
+          <MobileMenuButton
+            open={menuOpen}
+            onToggle={() => setMenuOpen((prev) => !prev)}
+          />
+        </div>
+      </div>
+
+      <MobileMenuDrawer
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        projectsHref="/#projects"
+        writingHref="/blog"
+      />
+    </header>
+  );
 }
 
 export function SiteFooter({

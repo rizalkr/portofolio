@@ -60,7 +60,7 @@ export default async function BlogPostPage({ params }: Props) {
     <div className="relative min-h-screen overflow-x-clip bg-[#F4F1EA] text-[#1C1A17] transition-colors duration-300 selection:bg-indigo-600/15 selection:text-indigo-900 dark:bg-zinc-950 dark:text-zinc-100">
       <PageAtmosphere />
 
-      <div className="relative z-10 mx-auto max-w-3xl px-6 pt-8 pb-24 sm:px-8 sm:pt-10">
+      <div className="relative z-10 mx-auto max-w-3xl px-6 pt-0 pb-24 sm:px-8">
         <SubpageHeader backHref="/blog" backLabel="Back to blog" />
 
         <article className="rounded-2xl border border-[#DFD9CE] bg-[#FAF8F3]/95 p-6 shadow-[0_1px_3px_rgba(28,25,23,0.04),0_1px_0_rgba(255,255,255,0.85)_inset] sm:p-8 dark:border-zinc-800/80 dark:bg-zinc-900/30 dark:shadow-none">
