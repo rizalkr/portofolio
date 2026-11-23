@@ -3,7 +3,7 @@
 import { useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Moon, Sun } from "lucide-react";
+import { ArrowLeft, ArrowUp, ArrowUpRight, Moon, Sun } from "lucide-react";
 import { BrandLogo } from "@/components/brand-logo";
 import { cn } from "@/lib/utils";
 
@@ -163,5 +163,190 @@ export function SubpageHeader({
         <ThemeToggle />
       </div>
     </div>
+  );
+}
+
+function toneClass(
+  isDark: boolean | undefined,
+  light: string,
+  dark: string,
+  auto: string
+) {
+  if (isDark === undefined) return auto;
+  return isDark ? dark : light;
+}
+
+export function SiteFooter({
+  isDark,
+  variant = "full",
+}: {
+  isDark?: boolean;
+  variant?: "full" | "compact";
+}) {
+  const subscribedTheme = usePortfolioTheme();
+  const logoTheme: PortfolioTheme =
+    isDark === undefined ? subscribedTheme : isDark ? "dark" : "light";
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const borderClass = toneClass(
+    isDark,
+    "border-[#DFD9CE]",
+    "border-zinc-800/80",
+    "border-[#DFD9CE] dark:border-zinc-800/80"
+  );
+  const headingClass = toneClass(
+    isDark,
+    "text-[#7A7468]",
+    "text-zinc-500",
+    "text-[#7A7468] dark:text-zinc-500"
+  );
+  const bodyClass = toneClass(
+    isDark,
+    "text-[#57534A]",
+    "text-zinc-400",
+    "text-[#57534A] dark:text-zinc-400"
+  );
+  const linkClass = toneClass(
+    isDark,
+    "text-[#3F3B34] hover:text-[#4338CA]",
+    "text-zinc-300 hover:text-indigo-400",
+    "text-[#3F3B34] hover:text-[#4338CA] dark:text-zinc-300 dark:hover:text-indigo-400"
+  );
+  const pillClass = toneClass(
+    isDark,
+    "border-[#DAD3C6] bg-[#EFECE4]/90 text-[#3F3B34]",
+    "border-zinc-800 bg-zinc-950/60 text-zinc-300",
+    "border-[#DAD3C6] bg-[#EFECE4]/90 text-[#3F3B34] dark:border-zinc-800 dark:bg-zinc-950/60 dark:text-zinc-300"
+  );
+
+  return (
+    <footer
+      className={cn(
+        "mt-20 border-t pt-10 transition-colors duration-300",
+        borderClass
+      )}
+    >
+      <div className="flex flex-col justify-between gap-10 md:flex-row md:items-start">
+        {/* Identity & Availability */}
+        <div className="max-w-sm space-y-3">
+          <Link
+            href="/"
+            aria-label="Rizal Kurnia — Home"
+            className="inline-flex rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+          >
+            <BrandLogo size="sm" theme={logoTheme} showText />
+          </Link>
+
+          {variant === "full" && (
+            <>
+              <p className={cn("font-mono text-xs leading-relaxed", bodyClass)}>
+                Backend, AI Systems &amp; Data Engineer
+              </p>
+
+              <div
+                className={cn(
+                  "inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1 font-mono text-[11px]",
+                  pillClass
+                )}
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                <span>Open to Backend, AI &amp; Data Roles</span>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Navigation & Contact Link Groups */}
+        <div className="grid grid-cols-2 gap-8 sm:gap-12 font-mono text-xs">
+          <div className="space-y-2.5">
+            <p className={cn("text-[10px] uppercase tracking-widest", headingClass)}>
+              Navigation
+            </p>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/#projects" className={cn("transition-colors", linkClass)}>
+                  Projects
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className={cn("transition-colors", linkClass)}>
+                  Writing
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn("inline-flex items-center gap-1 transition-colors", linkClass)}
+                >
+                  <span>Resume</span>
+                  <ArrowUpRight className="h-3 w-3 opacity-65" />
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="space-y-2.5">
+            <p className={cn("text-[10px] uppercase tracking-widest", headingClass)}>
+              Connect
+            </p>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="mailto:rizalkurnia.me@gmail.com"
+                  className={cn("break-all transition-colors", linkClass)}
+                >
+                  rizalkurnia.me@gmail.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/rizalkr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn("inline-flex items-center gap-1 transition-colors", linkClass)}
+                >
+                  <span>github.com/rizalkr</span>
+                  <ArrowUpRight className="h-3 w-3 opacity-65" />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Colophon Bar */}
+      <div
+        className={cn(
+          "mt-10 flex flex-wrap items-center justify-between gap-4 border-t pt-6 font-mono text-xs",
+          borderClass,
+          headingClass
+        )}
+      >
+        <span>© 2026 Rizal Kurnia. All rights reserved.</span>
+
+        <div className="flex items-center gap-4">
+          <span>Indonesia · UTC+7</span>
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className={cn(
+              "inline-flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded",
+              linkClass
+            )}
+          >
+            <span>Back to top</span>
+            <ArrowUp className="h-3 w-3" />
+          </button>
+        </div>
+      </div>
+    </footer>
   );
 }

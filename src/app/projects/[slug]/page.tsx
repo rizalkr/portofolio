@@ -1,6 +1,6 @@
 import { getProjectBySlug, projects } from "@/lib/projects";
 import { ProjectDetail } from "@/components/project-detail";
-import { PageAtmosphere, SubpageHeader } from "@/components/theme-toggle";
+import { PageAtmosphere, SiteFooter, SubpageHeader } from "@/components/theme-toggle";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -46,6 +46,8 @@ export default async function StandaloneProjectPage({ params }: Props) {
         <div className="rounded-2xl border border-[#DFD9CE] bg-[#FAF8F3]/95 p-6 shadow-[0_1px_3px_rgba(28,25,23,0.04),0_1px_0_rgba(255,255,255,0.85)_inset] sm:p-8 dark:border-zinc-800/80 dark:bg-zinc-900/35 dark:shadow-none">
           <ProjectDetail project={project} />
         </div>
+
+        <SiteFooter />
       </div>
     </div>
   );

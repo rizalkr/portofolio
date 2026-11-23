@@ -8,6 +8,7 @@ import { ArrowRight, ArrowUpRight, FileText, Mail } from "lucide-react";
 import { BrandLogo } from "@/components/brand-logo";
 import {
   PageAtmosphere,
+  SiteFooter,
   ThemeToggle,
   usePortfolioTheme,
 } from "@/components/theme-toggle";
@@ -858,39 +859,7 @@ export function PortfolioMonolith({
           </main>
         </div>
 
-        {/* Minimal Footer */}
-        <footer
-          className={cn(
-            "mt-20 flex flex-wrap items-center justify-between gap-4 border-t pt-6 font-mono text-xs",
-            isDark
-              ? "border-zinc-800/80 text-zinc-500"
-              : "border-[#DFD9CE] text-[#7A7468]"
-          )}
-        >
-          <span>Rizal Kurnia</span>
-          <div className="flex items-center gap-4">
-            <a
-              href="mailto:rizalkurnia.me@gmail.com"
-              className={cn(
-                "transition-colors",
-                isDark ? "hover:text-indigo-400" : "hover:text-[#4338CA]"
-              )}
-            >
-              rizalkurnia.me@gmail.com
-            </a>
-            <a
-              href="https://github.com/rizalkr"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "transition-colors",
-                isDark ? "hover:text-indigo-400" : "hover:text-[#4338CA]"
-              )}
-            >
-              github.com/rizalkr
-            </a>
-          </div>
-        </footer>
+        <SiteFooter isDark={isDark} />
       </div>
     </div>
   );

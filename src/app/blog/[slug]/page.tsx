@@ -5,7 +5,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { mdxComponents } from "@/components/mdx-components";
-import { PageAtmosphere, SubpageHeader } from "@/components/theme-toggle";
+import { PageAtmosphere, SiteFooter, SubpageHeader } from "@/components/theme-toggle";
 import {
   formatBlogDate,
   getAllPostSlugs,
@@ -148,6 +148,8 @@ export default async function BlogPostPage({ params }: Props) {
             )}
           </nav>
         )}
+
+        <SiteFooter />
       </div>
     </div>
   );

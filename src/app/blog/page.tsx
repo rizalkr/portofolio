@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
-import { PageAtmosphere, SubpageHeader } from "@/components/theme-toggle";
+import { PageAtmosphere, SiteFooter, SubpageHeader } from "@/components/theme-toggle";
 import { formatBlogDate, getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
@@ -90,6 +90,8 @@ export default function BlogIndexPage() {
             ))}
           </div>
         )}
+
+        <SiteFooter />
       </div>
     </div>
   );
