@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
+import { BrandLogo } from "@/components/brand-logo";
 import { mdxComponents } from "@/components/mdx-components";
 import {
   formatBlogDate,
@@ -57,13 +58,18 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-zinc-950">
       <div className="mx-auto max-w-2xl px-6 pt-16 pb-24">
-        <Link
-          href="/blog"
-          className="mb-8 inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-zinc-300"
-        >
-          <span aria-hidden>←</span>
-          <span>Back to blog</span>
-        </Link>
+        <div className="mb-8 flex items-center justify-between gap-4">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-zinc-300"
+          >
+            <span aria-hidden>←</span>
+            <span>Back to blog</span>
+          </Link>
+          <Link href="/" aria-label="Rizal Kurnia — Home">
+            <BrandLogo size="sm" showText />
+          </Link>
+        </div>
 
         <article>
           <header className="mb-10 space-y-4 border-b border-zinc-800/80 pb-8">

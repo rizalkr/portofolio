@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand-logo";
 import { ProjectStack } from "@/components/ProjectStack";
 import { MOCK_PROJECTS } from "@/lib/project-data";
 
@@ -26,6 +27,13 @@ export default function HomePage() {
             LEFT COLUMN — Sticky Identity Panel
             ═══════════════════════════════════ */}
         <aside className="lg:sticky lg:top-24 self-start flex flex-col gap-8">
+
+          {/* Brand Monogram */}
+          <div className="flex justify-center sm:justify-start">
+            <Link href="/" aria-label="Rizal Kurnia — Home">
+              <BrandLogo size="md" showText />
+            </Link>
+          </div>
 
           {/* Avatar + Name */}
           <section className="flex flex-col sm:flex-row lg:flex-col items-center sm:items-start gap-6">

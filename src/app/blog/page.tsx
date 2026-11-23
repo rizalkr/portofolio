@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { BrandLogo } from "@/components/brand-logo";
 import { formatBlogDate, getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
@@ -14,13 +15,18 @@ export default function BlogIndexPage() {
   return (
     <div className="min-h-screen bg-zinc-950">
       <div className="mx-auto max-w-2xl px-6 pt-16 pb-24">
-        <Link
-          href="/"
-          className="mb-8 inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-zinc-300"
-        >
-          <span aria-hidden>←</span>
-          <span>Back to home</span>
-        </Link>
+        <div className="mb-8 flex items-center justify-between gap-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-zinc-300"
+          >
+            <span aria-hidden>←</span>
+            <span>Back to home</span>
+          </Link>
+          <Link href="/" aria-label="Rizal Kurnia — Home">
+            <BrandLogo size="sm" showText />
+          </Link>
+        </div>
 
         <header className="mb-12 space-y-3 border-b border-zinc-800/80 pb-8">
           <h1 className="font-heading text-3xl font-bold tracking-tight text-zinc-100">
