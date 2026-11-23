@@ -1,3 +1,4 @@
+import { AlertTriangle, BarChart3, Tag, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -7,9 +8,32 @@ export function TelcoDashboardSlides({
   project,
   activeSlide,
 }: {
-  project: any;
+  project: { title: string };
   activeSlide: number;
 }) {
+  const features = [
+    {
+      Icon: Tag,
+      title: "Multi-label NLP Classification",
+      desc: "Extracts and classifies complaints into Network, Price, and App/System categories from raw review text.",
+    },
+    {
+      Icon: BarChart3,
+      title: "Telco Friction Index (TFI)",
+      desc: "Custom composite metric with 7-day moving average to track overall customer friction over time.",
+    },
+    {
+      Icon: AlertTriangle,
+      title: "Rolling Z-Score Anomaly Detection",
+      desc: "14-day rolling statistical model that triggers alerts when complaint volume exceeds 2.0 standard deviations.",
+    },
+    {
+      Icon: TrendingUp,
+      title: "Operational Dashboard",
+      desc: "Full visualization suite rendered with Matplotlib and Seaborn for stakeholder reporting and trend analysis.",
+    },
+  ];
+
   return (
     <div className="p-8 md:p-12">
       {activeSlide === 0 && (
@@ -42,33 +66,12 @@ export function TelcoDashboardSlides({
         <div className="flex flex-col gap-6">
           <h3 className="text-xl font-heading font-bold text-primary">Key Features</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              {
-                icon: "🏷️",
-                title: "Multi-label NLP Classification",
-                desc: "Extracts and classifies complaints into Network, Price, and App/System categories from raw review text.",
-              },
-              {
-                icon: "📊",
-                title: "Telco Friction Index (TFI)",
-                desc: "Custom composite metric with 7-day moving average to track overall customer friction over time.",
-              },
-              {
-                icon: "🚨",
-                title: "Rolling Z-Score Anomaly Detection",
-                desc: "14-day rolling statistical model that triggers alerts when complaint volume exceeds 2.0 standard deviations.",
-              },
-              {
-                icon: "📈",
-                title: "Operational Dashboard",
-                desc: "Full visualization suite rendered with Matplotlib and Seaborn for stakeholder reporting and trend analysis.",
-              },
-            ].map(({ icon, title, desc }) => (
+            {features.map(({ Icon, title, desc }) => (
               <div
                 key={title}
-                className="flex flex-col gap-2 p-4 rounded-lg border border-border bg-muted/20"
+                className="flex flex-col gap-2 p-4 rounded-lg border border-border bg-muted/40"
               >
-                <span className="text-2xl">{icon}</span>
+                <Icon className="h-5 w-5 text-primary" />
                 <span className="font-mono font-bold text-primary text-sm">{title}</span>
                 <span className="text-xs text-muted-foreground leading-relaxed">{desc}</span>
               </div>

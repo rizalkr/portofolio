@@ -1,145 +1,41 @@
-import Image from "next/image";
-import Link from "next/link";
-import { BrandLogo } from "@/components/brand-logo";
-import { ProjectStack } from "@/components/ProjectStack";
-import { MOCK_PROJECTS } from "@/lib/project-data";
+import {
+  PortfolioMonolith,
+  type PortfolioBlogItem,
+  type PortfolioProjectItem,
+} from "@/components/portfolio-monolith";
+import { formatBlogDate, getAllPosts } from "@/lib/blog";
+import { projects } from "@/lib/projects";
 
 export default function HomePage() {
-  const techStack = [
-    "Next.js",
-    "Node.js",
-    "React",
-    "Python",
-    "PostgreSQL",
-    "Drizzle ORM",
-    "Docker",
-    "FastAPI",
-  ];
+  const portfolioProjects: PortfolioProjectItem[] = projects.map((project) => ({
+    slug: project.slug,
+    title: project.title,
+    category: project.category,
+    summary: project.summary,
+    role: project.role,
+    year: project.year,
+    status: project.status,
+    metrics: project.metrics,
+    tech: project.tech,
+    repoUrl: project.repoUrl,
+    blogLink: project.blogLink,
+  }));
 
-  const webBackendProjects = MOCK_PROJECTS.filter((p) => p.category === "web-backend");
-  const dataAnalyticsProjects = MOCK_PROJECTS.filter((p) => p.category === "data-analytics");
+  const allPosts = getAllPosts();
+  const latestPosts: PortfolioBlogItem[] = allPosts.slice(0, 4).map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    formattedDate: post.date ? formatBlogDate(post.date) : "",
+    series: post.series,
+    part: post.part,
+  }));
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto px-6 py-12 lg:py-24">
-      <div className="flex flex-col lg:grid lg:grid-cols-[1fr_1.5fr] lg:gap-16 gap-16">
-
-        {/* ═══════════════════════════════════
-            LEFT COLUMN — Sticky Identity Panel
-            ═══════════════════════════════════ */}
-        <aside className="lg:sticky lg:top-24 self-start flex flex-col gap-8">
-
-          {/* Brand Monogram */}
-          <div className="flex justify-center sm:justify-start">
-            <Link href="/" aria-label="Rizal Kurnia — Home">
-              <BrandLogo size="md" showText />
-            </Link>
-          </div>
-
-          {/* Avatar + Name */}
-          <section className="flex flex-col sm:flex-row lg:flex-col items-center sm:items-start gap-6">
-            <div className="shrink-0 overflow-hidden rounded-xl border border-border">
-              <Image
-                src="/profile.jpeg"
-                alt="Rizal Kurnia"
-                width={128}
-                height={128}
-                className="w-32 h-32 object-cover transition-all duration-500"
-                priority
-              />
-            </div>
-            <div className="flex flex-col gap-3 text-center sm:text-left lg:text-left">
-              <h1 className="text-4xl lg:text-5xl font-heading font-extrabold tracking-tight">
-                Rizal Kurnia
-              </h1>
-              <p className="font-mono text-primary text-base font-medium">
-                &gt; Backend &amp; Data Analyst
-              </p>
-              <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
-                I design and implement highly scalable backend services, resilient data pipelines,
-                and intelligent infrastructure that power production workloads. Focused on
-                correctness, system observability, and operational simplicity.
-              </p>
-            </div>
-          </section>
-
-          {/* Contact — directly below bio */}
-          <section className="border-t border-slate-700/50 pt-6">
-            <h2 className="font-mono text-xs uppercase tracking-widest text-slate-500 mb-4">
-              Contact
-            </h2>
-            <div className="flex flex-wrap gap-4 font-mono text-sm">
-              <a
-                href="mailto:rizalkurnia.me@gmail.com"
-                className="text-muted-foreground hover:text-primary transition-colors underline underline-offset-4"
-              >
-                Email
-              </a>
-              <a
-                href="https://github.com/rizalkr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors underline underline-offset-4"
-              >
-                GitHub
-              </a>
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors underline underline-offset-4"
-              >
-                Resume
-              </a>
-              <Link
-                href="/blog"
-                className="text-muted-foreground hover:text-primary transition-colors underline underline-offset-4"
-              >
-                Blog
-              </Link>
-            </div>
-          </section>
-
-          {/* Tech Stack — 2 column grid */}
-          <section className="border-t border-slate-700/50 pt-6">
-            <h2 className="font-mono text-xs uppercase tracking-widest text-slate-500 mb-4">
-              Tech Stack
-            </h2>
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
-              {techStack.map((tech) => (
-                <li key={tech} className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-sm shrink-0" />
-                  <span className="font-mono text-sm text-slate-300">{tech}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-        </aside>
-
-        {/* ═══════════════════════════════════
-            RIGHT COLUMN — Scrollable Content
-            ═══════════════════════════════════ */}
-        <main className="flex flex-col gap-16">
-
-          {/* Web & Backend Projects */}
-          <section className="space-y-8">
-            <h2 className="font-mono text-sm uppercase tracking-widest text-muted-foreground border-b border-border pb-2">
-              Web &amp; Backend
-            </h2>
-            <ProjectStack projects={webBackendProjects} stackId="web-backend" />
-          </section>
-
-          {/* Data Analytics Projects */}
-          <section className="space-y-8">
-            <h2 className="font-mono text-sm uppercase tracking-widest text-muted-foreground border-b border-border pb-2">
-              Data Analytics
-            </h2>
-            <ProjectStack projects={dataAnalyticsProjects} stackId="data-analytics" />
-          </section>
-
-        </main>
-
-      </div>
-    </div>
+    <PortfolioMonolith
+      projects={portfolioProjects}
+      posts={latestPosts}
+      totalPosts={allPosts.length}
+    />
   );
 }

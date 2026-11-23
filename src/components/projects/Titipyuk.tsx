@@ -1,3 +1,4 @@
+import { Bot, Lock, MailCheck, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -7,9 +8,32 @@ export function TitipyukSlides({
   project,
   activeSlide,
 }: {
-  project: any;
+  project: { title: string };
   activeSlide: number;
 }) {
+  const features = [
+    {
+      Icon: Lock,
+      title: "Auth System",
+      desc: "Sign Up, Login, protected routes via Next.js middleware dengan session cookies httpOnly.",
+    },
+    {
+      Icon: Bot,
+      title: "Chatbot Lunos AI",
+      desc: "Streaming token real-time, riwayat percakapan tersimpan per user, konteks khusus domain TitipYuk.",
+    },
+    {
+      Icon: MailCheck,
+      title: "Email OTP Custom",
+      desc: "OTP 6 digit, disimpan hashed (bcrypt), masa berlaku 10 menit, rate limit 1 request/60 detik.",
+    },
+    {
+      Icon: ShieldCheck,
+      title: "Security First",
+      desc: "RLS policies aktif, service role key tidak di-expose ke client, generic error response.",
+    },
+  ];
+
   return (
     <div className="p-8 md:p-12">
       {activeSlide === 0 && (
@@ -42,33 +66,12 @@ export function TitipyukSlides({
         <div className="flex flex-col gap-6">
           <h3 className="text-xl font-heading font-bold text-primary">Key Features</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              {
-                icon: "🔐",
-                title: "Auth System",
-                desc: "Sign Up, Login, protected routes via Next.js middleware dengan session cookies httpOnly.",
-              },
-              {
-                icon: "🤖",
-                title: "Chatbot Lunos AI",
-                desc: "Streaming token real-time, riwayat percakapan tersimpan per user, konteks khusus domain TitipYuk.",
-              },
-              {
-                icon: "📧",
-                title: "Email OTP Custom",
-                desc: "OTP 6 digit, disimpan hashed (bcrypt), masa berlaku 10 menit, rate limit 1 request/60 detik.",
-              },
-              {
-                icon: "🛡️",
-                title: "Security First",
-                desc: "RLS policies aktif, service role key tidak di-expose ke client, generic error response.",
-              },
-            ].map(({ icon, title, desc }) => (
+            {features.map(({ Icon, title, desc }) => (
               <div
                 key={title}
-                className="flex flex-col gap-2 p-4 rounded-lg border border-border bg-muted/20"
+                className="flex flex-col gap-2 p-4 rounded-lg border border-border bg-muted/40"
               >
-                <span className="text-2xl">{icon}</span>
+                <Icon className="h-5 w-5 text-primary" />
                 <span className="font-mono font-bold text-primary text-sm">{title}</span>
                 <span className="text-xs text-muted-foreground leading-relaxed">{desc}</span>
               </div>
@@ -79,7 +82,7 @@ export function TitipyukSlides({
 
       {activeSlide === 2 && (
         <div className="flex flex-col gap-6">
-          <h3 className="text-xl font-heading font-bold text-primary">Tech & API</h3>
+          <h3 className="text-xl font-heading font-bold text-primary">Tech &amp; API</h3>
           <div className="flex flex-col divide-y divide-border">
             {[
               { label: "Framework", value: "Next.js 14 (App Router)" },
