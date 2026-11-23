@@ -1,0 +1,158 @@
+---
+title: "Context Engineering for AI Coding Agents: How I Built a Token-Disciplined Setup for Google Antigravity"
+date: "2026-11-23"
+excerpt: "Decoupling Planner and Executor models, catching context bloat with a stateful PreInvocation Python hook, and replacing global prompt bloat with progressive disclosure."
+series: "AI & Context Engineering"
+part: 1
+slug: "agy-setup-context-engineering"
+---
+
+If you use **Google Antigravity (`agy` CLI, App, or IDE)** for daily engineering work, running out of credits or watching an agent suddenly forget an obvious constraint rarely happens because the model got weaker. It happens because of **context leaks**.
+
+Across long coding sessions, four silent leaks consistently drain token budgets and degrade reasoning quality:
+
+1. **Model Over-Provisioning:** Using a flagship reasoning model for both high-level architecture and routine file edits.
+2. **Global MCP Schema Tax:** Keeping MCP servers enabled globally so thousands of unused tool-definition tokens get injected into every single turn.
+3. **Bad Compaction Timing:** Letting sessions drift past 120k+ tokens—or panic-running `/compact` right in the middle of an unresolved bug so the agent loses the stack trace.
+4. **Redundant Full-File Reads:** Letting the agent repeatedly dump 800-line files into context instead of querying a structural dependency graph or narrow line slices.
+
+To lock down all four leaks across **Windows, macOS, and Linux**, I built and open-sourced [agy-setup](https://github.com/rizalkr/agy-setup). Here is a walkthrough of the architecture and engineering decisions behind it.
+
+## Architecture Overview
+
+Rather than relying on vague system-prompt wishes like *"please be concise,"* `agy-setup` treats token discipline as an engineering pipeline spanning hooks, model routing, and file-system layout:
+
+```text
+User Prompt
+  |
+  v
+PreInvocation Hook (hooks/context-guardian.py)
+  |-- Parses transcript.jsonl (steps_since_compact & active tokens)
+  |-- GREEN  -> pass through silently
+  |-- YELLOW / RED (cooldown OK) -> inject advisory + "Never Compact Mid-Task" rule
+  |
+  v
+Plan-Execute Orchestrator (6 Presets: Argon 1-3 / Neon 4-6)
+  |-- Planner:  Gemini 4 Argon or Gemini 4 Neon
+  |-- Executor: Gemini 4 Hydrogen
+  |
+  +---> Domain Task?      -> skill-router -> INDEX.md -> 1 of 18 SKILL.md files
+  +---> Codebase Lookup?  -> graphify AST subgraph + StartLine/EndLine reads
+  +---> Noisy Search?     -> research subagent (isolated context window)
+```
+
+Let's break down each layer.
+
+## 1. Decoupling Planning from Execution: 6 Argon & Neon Orchestrator Presets
+
+Not every turn needs peak reasoning depth. `agy-setup` configures Antigravity's **Orchestrator Mode (Plan-Execute)** via `settings/presets.json`, separating the **Planner** from the **Executor** across six presets in two model families (**Argon 1–3** and **Neon 4–6**):
+
+| ID | Preset | Planner Model | Executor Model | Yellow Zone | Red Zone |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `1` | `balanced` (Recommended) | `Gemini 4 Argon (Medium)` | `Gemini 4 Hydrogen (High)` | 75 steps / 85k tokens | 120 steps / 135k tokens |
+| `2` | `ultra-saver` | `Gemini 4 Hydrogen (XHigh)` | `Gemini 4 Hydrogen (High)` | 50 steps / 60k tokens | 85 steps / 95k tokens |
+| `3` | `max-quality` | `Gemini 4 Argon (High)` | `Gemini 4 Hydrogen (XHigh)` | 100 steps / 110k tokens | 150 steps / 160k tokens |
+| `4` | `neon-balanced` | `Gemini 4 Neon (High)` | `Gemini 4 Hydrogen (High)` | 75 steps / 85k tokens | 120 steps / 135k tokens |
+| `5` | `neon-saver` | `Gemini 4 Neon (Medium)` | `Gemini 4 Hydrogen (High)` | 55 steps / 65k tokens | 90 steps / 100k tokens |
+| `6` | `neon-max` | `Gemini 4 Neon (XHigh)` | `Gemini 4 Hydrogen (XHigh)` | 100 steps / 110k tokens | 150 steps / 160k tokens |
+
+Switching presets later is non-destructive. The Python installer (`install.py`) merges only the orchestrator and UI preference keys into `~/.gemini/antigravity-cli/settings.json`, leaving your existing `permissions` and `trustedWorkspaces` intact:
+
+```bash
+# Linux / macOS
+./install.sh --preset 4
+
+# Windows (PowerShell)
+.\install.ps1 --preset 4
+```
+
+## 2. Context Guardian: A Stateful `PreInvocation` Hook That Refuses to Compact Mid-Bug
+
+Asking an LLM to *"tell me when context gets too long"* does not work—models cannot reliably measure their own token consumption across multi-step tool loops.
+
+`hooks/context-guardian.py` solves this deterministically. Registered on `PreInvocation` in `~/.gemini/config/hooks.json`, it inspects the active conversation's `transcript.jsonl` before each turn and tracks two signals against your active preset (`~/.gemini/config/hooks/preset.json`):
+
+1. **Steps since the last compaction**
+2. **Active context tokens** (`input_tokens + cache_read_tokens` on `MODEL` events)
+
+A subtle edge case is detecting **compactions reliably**—both when the user runs `/compact` explicitly and when an automatic compaction shrinks context behind the scenes. In `inspect_transcript()`:
+
+```python
+if entry.get("source") == "MODEL":
+    inp = entry.get("input_tokens")
+    cache = entry.get("cache_read_tokens")
+    if isinstance(inp, int) or isinstance(cache, int):
+        tokens = (inp if isinstance(inp, int) else 0) + (
+            cache if isinstance(cache, int) else 0
+        )
+        if tokens > 0:
+            if (
+                peak_tokens >= MIN_PEAK_FOR_COMPACT_DROP
+                and tokens <= int(peak_tokens * COMPACT_DROP_RATIO)
+            ):
+                last_compact_step = step_idx
+                peak_tokens = tokens
+            elif tokens > peak_tokens:
+                peak_tokens = tokens
+            latest_tokens = tokens
+```
+
+Whenever `peak_tokens` has reached at least `40,000` and suddenly drops by 25% or more (`COMPACT_DROP_RATIO = 0.75`), the hook automatically resets `last_compact_step`—no manual counter reset required.
+
+### Cooldowns and the "Never Compact Mid-Task" Rule
+
+When usage crosses into the **Yellow Zone** or **Red Zone**, the hook checks a per-conversation state file (`~/.gemini/cache/context_guardian_state.json`, capped at 50 entries) so it fires immediately on zone escalation (`GREEN -> YELLOW` or `YELLOW -> RED`) and otherwise obeys step cooldowns (`20`–`40` steps depending on preset).
+
+It then injects a system advisory via `injectSteps`:
+
+```python
+return {"injectSteps": [{"systemMessage": {"systemMessage": msg}}]}
+```
+
+Combined with global rules in `rules/global-GEMINI.md`, this enforces **"Never Compact Mid-Task"**:
+
+- **Mid-bug or half-applied edit:** The agent refuses to recommend `/compact`, finishes the atomic fix and verification first, and clearly flags that compaction is not safe yet.
+- **Clean milestone or completed task:** The agent appends a ready-to-copy `/compact ...` command preserving exact file paths, decisions, and next steps—or a self-contained **New-Session Handoff Prompt** for `/clear` when hitting the Red Zone.
+
+## 3. Eliminating the Global MCP Schema Tax
+
+Every MCP server enabled globally injects its tool schemas into every turn—even when you are only editing Markdown or writing unit tests.
+
+`agy-setup` keeps global `mcp_config.json` files empty (`{"mcpServers": {}}`) and ships `settings/mcp_templates.example.json` so heavy servers (like Supabase) are attached strictly at the project level inside `<project>/.agents/mcp_config.json`.
+
+## 4. Progressive-Disclosure Skill Routing (5 Core + 18 Domain Skills)
+
+Stuffing 20+ framework best-practice guides into global rules wastes thousands of tokens before you even write your first prompt. Instead, `agy-setup` splits skills into two tiers:
+
+- **5 Core Skills (`~/.gemini/config/skills/`):** Always available globally (`skill-router`, `graphify`, `find-skills`, `read-only-agent`, `security-audit`). Note that `graphify` itself uses a compact 2.2 KB fast-path `SKILL.md` backed by `references/full-pipeline.md`.
+- **18 Domain Skills (`~/.gemini/skill-library/`):** Organized across 7 categories (`backend`, `frontend`, `database`, `testing`, `devops`, `data-ai`, `docs-office`) covering Next.js 15/16 and React 19, Tailwind v4 + shadcn/ui, Laravel 13, FastAPI + Pydantic v2, Drizzle ORM, Supabase SSR/RLS, Playwright RBAC, Vitest, PHPUnit, Docker CI/CD, RAG/LLM agents, Python ML/scraping, AppSec, and Office automation.
+
+A Python CLI tool (`agy-index-skills`, backed by `skill-library/rebuild-index.py`) parses each skill's YAML frontmatter into a single compact lookup table (`INDEX.md`). When a task touches a specific framework, `skill-router` checks `INDEX.md` and loads **only** the matching `SKILL.md`.
+
+## 5. AST Graph Queries & Line-Range Discipline
+
+To stop agents from reading entire files over and over, `rules/global-GEMINI.md` and `rules/workspace-GEMINI.md` enforce four operational habits:
+
+1. **Graphify First:** When `graphify-out/graph.json` exists, run `graphify query`, `graphify path`, or `graphify explain` before raw `grep` or file reads. If `graphify` is installed, `install.py` also wires `graphify hook-guard gemini` into `~/.gemini/settings.json`.
+2. **Targeted Line Slices:** Read `StartLine`/`EndLine` ranges rather than full files.
+3. **Parallel Batching:** Combine independent reads, searches, and edits into single turns.
+4. **Isolated Subagent Exploration:** Offload noisy multi-file codebase searches to the `research` subagent so raw search logs never bloat the main context window.
+
+## Try It in 30 Seconds (Zero Manual Config)
+
+You do not need to copy config files by hand. Open `agy` on **Windows, macOS, or Linux** and paste this prompt—the agent will clone the repo, ask which preset (`1`–`6`) you want, run the installer, and validate all JSON configs via `AGENT_SETUP.md`:
+
+```text
+Clone https://github.com/rizalkr/agy-setup.git to ~/Projects/agy-setup (or pull latest if it exists), then read and execute AGENT_SETUP.md to install the setup. Ask me which preset I want (Argon: 1 Balanced [Recommended], 2 Ultra Saver, 3 Max Quality; Neon: 4 Neon Balanced, 5 Neon Ultra Saver, 6 Neon Max Quality) before running the installer.
+```
+
+Or run the cross-platform installer manually:
+
+```bash
+git clone https://github.com/rizalkr/agy-setup.git ~/Projects/agy-setup
+cd ~/Projects/agy-setup
+./install.sh --choose    # Linux / macOS
+.\install.ps1 --choose   # Windows PowerShell
+```
+
+The full source code, hook implementation, and preset definitions are open on GitHub: [rizalkr/agy-setup](https://github.com/rizalkr/agy-setup).

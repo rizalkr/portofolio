@@ -8,6 +8,7 @@ export interface Project {
   role: string;
   year: string;
   status: "production" | "archived" | "in-progress";
+  repoUrl?: string;
   blogLink?: {
     label: string;
     href: string;
@@ -15,6 +16,37 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    slug: "agy-setup",
+    title: "AGY-SETUP: Context Engineering & Orchestrator Suite",
+    summary:
+      "Cross-platform context engineering and model-orchestration toolkit for Google Antigravity featuring 6 Plan-Execute presets, a stateful PreInvocation compaction hook, zero global MCP bloat, and an 18-skill progressive disclosure router.",
+    description:
+      "An open-source AI Engineering and Developer Experience toolkit for Google Antigravity (CLI, App, and IDE) across Windows, macOS, and Linux. agy-setup eliminates silent token leaks by decoupling reasoning planners (Gemini 4 Argon and Neon) from fast executors (Gemini 4 Hydrogen) across 6 presets, enforcing a 'Never Compact Mid-Task' safety protocol via a stateful Python PreInvocation hook (context-guardian.py) that parses transcript.jsonl, isolating MCP servers per project, and indexing 18 specialized domain skills behind a progressive-disclosure router (agy-index-skills) paired with graphify AST queries.",
+    tech: [
+      "Python 3",
+      "Google Antigravity",
+      "Bash",
+      "PowerShell",
+      "PreInvocation Hooks",
+      "MCP Protocol",
+      "Graphify AST",
+      "JSON Schema",
+    ],
+    metrics: [
+      { label: "Orchestrator Presets", value: "6 (Argon & Neon)" },
+      { label: "Skill Library", value: "5 Core + 18 Domain" },
+      { label: "Global MCP Tax", value: "0 Tokens" },
+    ],
+    role: "AI Systems & DX Engineer",
+    year: "2026",
+    status: "production",
+    repoUrl: "https://github.com/rizalkr/agy-setup",
+    blogLink: {
+      label: "Read the Engineering Article",
+      href: "/blog/agy-setup-context-engineering",
+    },
+  },
   {
     slug: "kosera",
     title: "KOSERA: AI-Powered Property Search Engine",

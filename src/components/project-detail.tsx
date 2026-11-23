@@ -83,19 +83,34 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
         </div>
       </div>
 
-      {/* Engineering Series */}
-      {project.blogLink && (
+      {/* Engineering Series & Links */}
+      {(project.blogLink || project.repoUrl) && (
         <div className="space-y-2 border-t border-zinc-800/80 pt-5">
           <h3 className="text-xs font-mono uppercase tracking-widest text-zinc-500">
-            Engineering Series
+            Resources
           </h3>
-          <Link
-            href={project.blogLink.href}
-            className="inline-flex items-center gap-2 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-4 py-2.5 font-mono text-xs text-indigo-300 transition-colors hover:border-indigo-400/60 hover:bg-indigo-500/15 hover:text-indigo-200"
-          >
-            <span>{project.blogLink.label}</span>
-            <span aria-hidden>→</span>
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            {project.blogLink && (
+              <Link
+                href={project.blogLink.href}
+                className="inline-flex items-center gap-2 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-4 py-2.5 font-mono text-xs text-indigo-300 transition-colors hover:border-indigo-400/60 hover:bg-indigo-500/15 hover:text-indigo-200"
+              >
+                <span>{project.blogLink.label}</span>
+                <span aria-hidden>→</span>
+              </Link>
+            )}
+            {project.repoUrl && (
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-900/60 px-4 py-2.5 font-mono text-xs text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900"
+              >
+                <span>GitHub Repository</span>
+                <span aria-hidden>↗</span>
+              </a>
+            )}
+          </div>
         </div>
       )}
     </motion.div>
