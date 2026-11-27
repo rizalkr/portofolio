@@ -1,6 +1,8 @@
 import { Bot, Lock, MailCheck, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ProjectOriginBadge } from "@/components/project-origin-badge";
+import type { ProjectOrigin } from "@/lib/projects";
 
 export const SLIDE_COUNT = 4;
 
@@ -8,7 +10,7 @@ export function TitipyukSlides({
   project,
   activeSlide,
 }: {
-  project: { title: string };
+  project: { title: string; origin: ProjectOrigin };
   activeSlide: number;
 }) {
   const features = [
@@ -43,6 +45,7 @@ export function TitipyukSlides({
               {project.title}
             </h2>
             <div className="flex flex-wrap gap-2">
+              <ProjectOriginBadge origin={project.origin} variant="slide" />
               <Badge variant="secondary" className="font-mono">Next.js 14</Badge>
               <Badge variant="secondary" className="font-mono">TypeScript</Badge>
               <Badge variant="secondary" className="font-mono">Supabase</Badge>

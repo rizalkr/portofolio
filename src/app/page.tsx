@@ -11,6 +11,7 @@ export default function HomePage() {
     slug: project.slug,
     title: project.title,
     category: project.category,
+    origin: project.origin,
     summary: project.summary,
     role: project.role,
     year: project.year,

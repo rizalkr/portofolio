@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
+import { ProjectOriginBadge } from "@/components/project-origin-badge";
 import { type Project } from "@/lib/projects";
 
 interface ProjectDetailProps {
@@ -30,6 +31,7 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           >
             {project.status}
           </Badge>
+          <ProjectOriginBadge origin={project.origin} variant="detail" />
         </div>
         <p className="font-mono text-xs text-[#7A7468] dark:text-zinc-400">
           {project.role} · {project.year}

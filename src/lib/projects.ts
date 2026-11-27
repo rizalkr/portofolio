@@ -1,9 +1,35 @@
 export type ProjectCategory = "web-backend" | "data-analytics";
 
+export type ProjectOriginType =
+  | "open-source"
+  | "hackathon"
+  | "research"
+  | "product"
+  | "case-study";
+
+export interface ProjectOrigin {
+  type: ProjectOriginType;
+  detail?: string;
+}
+
+export const PROJECT_ORIGIN_LABELS: Record<ProjectOriginType, string> = {
+  "open-source": "Open Source",
+  hackathon: "Hackathon",
+  research: "Research",
+  product: "Product",
+  "case-study": "Case Study",
+};
+
+export function formatProjectOrigin(origin: ProjectOrigin): string {
+  const base = PROJECT_ORIGIN_LABELS[origin.type];
+  return origin.detail ? `${base} · ${origin.detail}` : base;
+}
+
 export interface Project {
   slug: string;
   title: string;
   category: ProjectCategory;
+  origin: ProjectOrigin;
   summary: string;
   description: string;
   tech: string[];
@@ -23,6 +49,7 @@ export const projects: Project[] = [
     slug: "agy-setup",
     title: "AGY-SETUP: Context Engineering & Orchestrator Suite",
     category: "web-backend",
+    origin: { type: "open-source" },
     summary:
       "Cross-platform orchestration toolkit for Google Antigravity pairing Argon/Neon planners with Hydrogen executors across 6 presets, a stateful Context Guardian hook, and a 19-skill lazy router.",
     description:
@@ -52,9 +79,41 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "meko-standards-guard",
+    title: "Meko Standards Guard: Cross-Agent Governance Suite",
+    category: "web-backend",
+    origin: { type: "hackathon", detail: "ContextCon" },
+    summary:
+      "Governed institutional memory and deterministic AST/PII guardrails backed by YugabyteDB Meko, sharing human-approved engineering invariants across Cursor, OpenCode, Codex, and Claude Code.",
+    description:
+      "AI coding agents normally start every session from zero and risk repeating historical incidents or polluting shared team context. Built for ContextCon by YugabyteDB Meko as a 5-package TypeScript monorepo, Meko Standards Guard codifies 8 financial and security ADRs (S1-S8) across all 5 Meko primitives: Knowledge Base, 2-tier Private/Shared Memory, Conversations, Content-Addressed Artifacts, and Self-Learning. A deterministic ts-morph AST and PII taint analyzer paired with a Hono/Drizzle/SQLite double-entry ledger test suite gates code diffs, quarantines violations in agent-private memory until human promotion via CLI or local Control Plane UI, and cuts prompt tokens by 88.8% (9,725 -> 1,089 via tiktoken/cl100k_base over live Meko retrieval payloads) across a reproducible 5-task fixture benchmark.",
+    tech: [
+      "TypeScript",
+      "YugabyteDB Meko",
+      "MCP Server",
+      "ts-morph AST",
+      "Hono",
+      "Drizzle ORM",
+      "SQLite",
+      "React / Vite",
+      "Vitest",
+      "tiktoken",
+    ],
+    metrics: [
+      { label: "Prompt Token Cut", value: "-88.8%" },
+      { label: "Meko Primitives", value: "5 / 5 Integrated" },
+      { label: "Enforced ADRs", value: "8 Rules (S1-S8)" },
+    ],
+    role: "AI Systems & Backend Engineer",
+    year: "2026",
+    status: "production",
+    repoUrl: "https://github.com/rizalkr/meko-standards-guard",
+  },
+  {
     slug: "kosera",
     title: "KOSERA: AI-Powered Property Search Engine",
     category: "web-backend",
+    origin: { type: "research" },
     summary:
       "Hybrid AI boarding-house search engine pairing a QLoRA-tuned Qwen2.5-7B-Instruct assistant with MiniLM-L12-v2 384d embeddings and pgvector HNSW across 7,000 indexed listings.",
     description:
@@ -89,6 +148,7 @@ export const projects: Project[] = [
     slug: "titipyuk",
     title: "TitipYuk Semarang",
     category: "web-backend",
+    origin: { type: "product" },
     summary:
       "Luggage storage booking platform built on Next.js 14 and Supabase featuring bcrypt-hashed Email OTP verification and a domain-scoped streaming AI assistant.",
     description:
@@ -118,6 +178,7 @@ export const projects: Project[] = [
     slug: "krz-digishop",
     title: "KRZ DIGISHOP",
     category: "web-backend",
+    origin: { type: "product" },
     summary:
       "Zero-JS Astro.js storefront for AI software and VPN subscriptions engineered with scoped CSS, category filtering, and instant static asset delivery.",
     description:
@@ -144,6 +205,7 @@ export const projects: Project[] = [
     slug: "fraud-detection",
     title: "Fraud Detection Decision Engine",
     category: "data-analytics",
+    origin: { type: "case-study" },
     summary:
       "Random Forest risk engine that replaces binary fraud flags with a 3-tier routing pipeline (Approve / Auth / Manual Review), catching 65.4% of fraud at 3.06% customer friction.",
     description:
@@ -172,6 +234,7 @@ export const projects: Project[] = [
     slug: "telco-dashboard",
     title: "Telco Portfolio Dashboard & Incident Detection",
     category: "data-analytics",
+    origin: { type: "case-study" },
     summary:
       "NLP anomaly detection pipeline that classifies raw app reviews and flags infrastructure incidents using a 7-day Telco Friction Index and 14-day rolling Z-Score (> 2.0 SD).",
     description:
@@ -199,6 +262,7 @@ export const projects: Project[] = [
     slug: "telco-churn",
     title: "Telco Customer Churn Prediction & Retention Strategy",
     category: "data-analytics",
+    origin: { type: "case-study" },
     summary:
       "Threshold-tuned Logistic Regression pipeline across 7,000+ telecom accounts achieving 87% churn recall and automated 3-tier CSV routing for retention teams.",
     description:

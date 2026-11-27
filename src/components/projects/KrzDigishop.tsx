@@ -1,5 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ProjectOriginBadge } from "@/components/project-origin-badge";
+import type { ProjectOrigin } from "@/lib/projects";
 
 export const SLIDE_COUNT = 4;
 
@@ -7,7 +9,7 @@ export function KrzDigishopSlides({
   project,
   activeSlide,
 }: {
-  project: { title: string };
+  project: { title: string; origin: ProjectOrigin };
   activeSlide: number;
 }) {
   return (
@@ -19,6 +21,7 @@ export function KrzDigishopSlides({
               {project.title}
             </h2>
             <div className="flex flex-wrap gap-2">
+              <ProjectOriginBadge origin={project.origin} variant="slide" />
               <Badge variant="secondary" className="font-mono">Astro.js</Badge>
               <Badge variant="secondary" className="font-mono">Scoped CSS</Badge>
               <Badge variant="secondary" className="font-mono">Space Grotesk</Badge>

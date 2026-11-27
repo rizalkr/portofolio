@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ProjectOriginBadge } from "@/components/project-origin-badge";
+import type { ProjectOrigin } from "@/lib/projects";
 
 export const SLIDE_COUNT = 4;
 
@@ -8,7 +10,7 @@ export function AgySetupSlides({
   project,
   activeSlide,
 }: {
-  project: { title: string };
+  project: { title: string; origin: ProjectOrigin };
   activeSlide: number;
 }) {
   return (
@@ -20,6 +22,7 @@ export function AgySetupSlides({
               {project.title}
             </h2>
             <div className="flex flex-wrap gap-2">
+              <ProjectOriginBadge origin={project.origin} variant="slide" />
               <Badge variant="secondary" className="font-mono">Plan-Execute (6 Presets)</Badge>
               <Badge variant="secondary" className="font-mono">Context Guardian FSM</Badge>
               <Badge variant="secondary" className="font-mono">Lazy Skill Router (19)</Badge>

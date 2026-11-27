@@ -1,6 +1,8 @@
 import { AlertTriangle, BarChart3, Tag, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ProjectOriginBadge } from "@/components/project-origin-badge";
+import type { ProjectOrigin } from "@/lib/projects";
 
 export const SLIDE_COUNT = 4;
 
@@ -8,7 +10,7 @@ export function TelcoDashboardSlides({
   project,
   activeSlide,
 }: {
-  project: { title: string };
+  project: { title: string; origin: ProjectOrigin };
   activeSlide: number;
 }) {
   const features = [
@@ -43,6 +45,7 @@ export function TelcoDashboardSlides({
               {project.title}
             </h2>
             <div className="flex flex-wrap gap-2">
+              <ProjectOriginBadge origin={project.origin} variant="slide" />
               <Badge variant="secondary" className="font-mono">Python</Badge>
               <Badge variant="secondary" className="font-mono">NLP</Badge>
               <Badge variant="secondary" className="font-mono">Matplotlib</Badge>

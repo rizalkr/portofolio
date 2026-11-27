@@ -11,13 +11,15 @@ import {
   SiteNavbar,
   usePortfolioTheme,
 } from "@/components/theme-toggle";
-import type { ProjectCategory } from "@/lib/projects";
+import type { ProjectCategory, ProjectOrigin } from "@/lib/projects";
+import { ProjectOriginBadge } from "@/components/project-origin-badge";
 import { cn } from "@/lib/utils";
 
 export interface PortfolioProjectItem {
   slug: string;
   title: string;
   category: ProjectCategory;
+  origin: ProjectOrigin;
   summary: string;
   role: string;
   year: string;
@@ -542,6 +544,7 @@ export function PortfolioMonolith({
                                   >
                                     {project.year}
                                   </span>
+                                  <ProjectOriginBadge origin={project.origin} variant="compact" />
                                 </div>
                                 <p
                                   className={cn(
